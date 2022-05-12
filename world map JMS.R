@@ -1,6 +1,7 @@
 rm(list = ls())
 
 setwd("~/Desktop/PhD/Publications/Li Chong et al. ocean temp variability")
+setwd("~/Documents/GitHub/Ocean_temperature_variability_2022/")
 library(ggplot2)
 library(ggmap)
 library(maptools)

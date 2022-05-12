@@ -1,4 +1,5 @@
 rm(list = ls())
+setwd("~/Documents/GitHub/Ocean_temperature_variability_2022/")
 
 library(ggplot2)
 library(measurements)
@@ -217,6 +218,8 @@ grid.arrange(plot1, plot2,
              plot3, plot4, 
              plot5, plot6, ncol = 2)
 
+# Save final fig: 
+setwd("~/Desktop/PhD/Publications/Li Chong et al. ocean temp variability")
 ggsave(filename="Fig2_May2022_JMS.png",height=9, width=9, plot=grid.arrange(plot1, plot2,  
                                                         plot3, plot4, 
                                                         plot5, plot6, ncol = 2), device="png")
