@@ -1,6 +1,5 @@
 rm(list = ls())
 
-setwd("~/Desktop/PhD/Publications/Li Chong et al. ocean temp variability")
 setwd("~/Documents/GitHub/Ocean_temperature_variability_2022/")
 library(ggplot2)
 library(ggmap)
@@ -63,7 +62,7 @@ MAP<-mp + geom_point(data = metadata2,
         legend.spacing.y = unit(0.1, "mm"),legend.title.align=0,
         legend.background = element_blank(),
         panel.border = element_rect(colour = "black", fill=NA, size=1))+ # adds box around legend and fixes spacing 
-  scale_color_manual(values=c("#F65058FF", "#D5A458", "#79CEDC"))+ 
+  scale_color_manual(values=c("#FC440F", "#E8C547", "#50D8D7"))+ 
   scale_y_continuous(expand = c(0,0), limits = c(-60, 90))+scale_x_continuous(expand = c(0,0), limits = c(-180, 190)) +
   annotate('text',x=-82.58167, y = -0.871389 , label = 'a', size =7,fontface='bold')+
   annotate('text',x=55 , y = -12 , label = 'b', size =7,fontface='bold')+
@@ -76,9 +75,11 @@ MAP<-mp + geom_point(data = metadata2,
 MAP
 
 # this saves fig as high-quality pdf
+setwd("~/Desktop/PhD/Publications/Li Chong et al. ocean temp variability")
+
 pdf(width = 8, useDingbats=TRUE,height = 3.5, bg="white", file="World_Map") 
 MAP
 dev.off()
 
-ggsave(filename="Fig1_JMS.png",height=6, width=10, plot=MAP, device="png")
+ggsave(filename="Fig1_May2022_JMS.png",height=6, width=10, plot=MAP, device="png")
 
