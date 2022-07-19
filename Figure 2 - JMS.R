@@ -29,7 +29,7 @@ time1 = seq(from = as.POSIXct(df$measurement_date[1], tz = "GMT"),
 
 #default font is 11 when using text()
 assign(paste0("plot1"), ggplot(df, aes(x = time1, y = temp)) + geom_line(colour='#FC440F') + theme_classic() + 
-         labs(title = "Ecuador") + geom_hline(yintercept=28.766,
+         labs(title = "Ecuador (0.87°S)") + geom_hline(yintercept=28.766,
                                               linetype='dashed')+ 
          geom_hline(yintercept=15.031,linetype='dashed') +
          theme(plot.title = element_text(hjust = 0.5),
@@ -61,7 +61,7 @@ time2 = seq(from = as.POSIXct(df$measurement_date[1], tz = "GMT"),
            to = as.POSIXct(y, tz = "GMT"), by = paste(freq, "mins"))
 
 assign(paste0("plot2"), ggplot(df, aes(x = time2, y = temp)) + geom_line(colour='#FC440F') + theme_classic() + 
-         labs(title = "Indian Ocean") + geom_hline(yintercept=32.377,
+         labs(title = "Indian Ocean (12.00°S)") + geom_hline(yintercept=32.377,
                                                    linetype='dashed')+ 
          geom_hline(yintercept=24.639,linetype='dashed')+
          theme(plot.title = element_text(hjust = 0.5),
@@ -97,7 +97,7 @@ time3 = seq(from = as.POSIXct(df$measurement_date[1], tz = "GMT"),
            to = as.POSIXct(y, tz = "GMT"), by = paste(freq, "mins"))
 
 assign(paste0("plot3"), ggplot(df, aes(x = time3, y = temp)) + geom_line(colour='#E8C547') + theme_classic() + 
-         labs(title = "Brazil") + geom_hline(yintercept=25.416,
+         labs(title = "Brazil (27.94°S)") + geom_hline(yintercept=25.416,
                                              linetype='dashed')+ 
          geom_hline(yintercept=14.517,linetype='dashed')+ 
          theme(plot.title = element_text(hjust = 0.5),
@@ -129,7 +129,7 @@ time4 = seq(from = as.POSIXct(df$measurement_date[1], tz = "GMT"),
            to = as.POSIXct(y, tz = "GMT"), by = paste(freq, "mins"))
 
 assign(paste0("plot4"), ggplot(df, aes(x = time4, y = temp)) + geom_line(colour='#E8C547') + theme_classic() + 
-         labs(title = "Western Australia") + geom_hline(yintercept=31.3002,
+         labs(title = "Western Australia (20.90°S)") + geom_hline(yintercept=31.3002,
                                                 linetype='dashed')+ 
          geom_hline(yintercept=20.8347,linetype='dashed')+ 
          theme(plot.title = element_text(hjust = 0.5),
@@ -163,7 +163,7 @@ time5 = seq(from = as.POSIXct(df$measurement_date[1], tz = "GMT"),
            to = as.POSIXct(y, tz = "GMT"), by = paste(freq, "mins"))
 
 assign(paste0("plot5"), ggplot(df, aes(x = time5, y = temp)) + geom_line(colour="#50D8D7") + theme_classic() + 
-         labs(title = "Tasmania") + geom_hline(yintercept=20.793,
+         labs(title = "Tasmania (43.23°S)") + geom_hline(yintercept=20.793,
                                                linetype='dashed')+ 
          geom_hline(yintercept=8.99,linetype='dashed')+ 
          theme(plot.title = element_text(hjust = 0.5),
@@ -195,7 +195,7 @@ time6 = seq(from = as.POSIXct(df$measurement_date[1], tz = "GMT"),
            to = as.POSIXct(y, tz = "GMT"), by = paste(freq, "mins"))
 
 assign(paste0("plot6"), ggplot(df, aes(x = as.Date(time6), y = temp)) + geom_line(colour="#50D8D7") + theme_classic() + 
-         labs(title = "Chile") + geom_hline(yintercept=21.71,
+         labs(title = "Chile (41.50°S)") + geom_hline(yintercept=21.71,
                                             linetype='dashed')+ 
          geom_hline(yintercept=6.54,linetype='dashed')+ 
          theme(plot.title = element_text(hjust = 0.5),
@@ -220,6 +220,6 @@ grid.arrange(plot1, plot2,
 
 # Save final fig: 
 setwd("~/Desktop/PhD/Publications/Li Chong et al. ocean temp variability")
-ggsave(filename="Fig2_May2022_JMS.png",height=9, width=9, plot=grid.arrange(plot1, plot2,  
+ggsave(filename="Fig2_July2022_JMS.png",height=9, width=9, plot=grid.arrange(plot1, plot2,  
                                                         plot3, plot4, 
                                                         plot5, plot6, ncol = 2), device="png")
