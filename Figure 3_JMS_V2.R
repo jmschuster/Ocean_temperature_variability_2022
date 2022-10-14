@@ -157,7 +157,7 @@ plot2 = ggplot(data=subset(temp_range2,window!='Annual'), aes(x=window, y=median
                                                              text=element_text(size=12),
                                                              legend.position = "None",
                                                              plot.margin=unit(c(0.2,0.2,0.3,0.2), "cm")) +
-  ggtitle(paste("Difference in biological rates")) +
+  ggtitle(paste("Range of biological rates")) +
   scale_fill_manual(values=c("#FC440F", "#E8C547", "#50D8D7")) + 
   annotation_custom(grobTree(textGrob(expression(bold("e")), x=0.05,  y=0.92,
                                       gp=gpar(fontsize=15)))) +
@@ -368,7 +368,7 @@ dev.off()
 
 
 # save plot (separate annual plots)
-ggsave(filename="Fig3_V2_May2022.png",height=5, width=11, units="in", plot=grid.arrange(plot1, plot1a, plot2, plot2a,
+ggsave(filename="Fig3_V2_Sept2022.png",height=5, width=11, units="in", plot=grid.arrange(plot1, plot1a, plot2, plot2a,
                                                                                  plot3, plot3a, plot4, plot4a, ncol = 4, 
                                                                                  widths = c(4,1.5, 4,1.7), heights = c(2.5, 2.5)), device="png")
 
