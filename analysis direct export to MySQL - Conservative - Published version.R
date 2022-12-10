@@ -6,8 +6,8 @@
 # if the temperature records did not contain more than the following percentage 
 # of missing values over the period of the temporal window: i) Daily - 10%, 
 # ii) Weekly - 30%, iii) Biweekly - 30%, iv) Monthly - 30%, and v) Annual - 30%. 
-# For monthly and annual, there had to be more than 27 days and 330 days in the 
-# temporal window respectively.
+# In addition, for weekly, biweekly, monthly and annual, there had to be more 
+# than 5, 11, 27 and 330 days in the temporal window respectively.
 
 # Briefly, the code extracts the time series from the MySQL database,
 # calculates the temperature range, and exports the results directly to 
