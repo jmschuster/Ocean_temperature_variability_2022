@@ -2,6 +2,7 @@ rm(list = ls())
 
 #setwd("C:/Users/Owner/Documents/HOTS Database/Final Paper/RMarkDown/Sensitivity Test")
 setwd("G:/Other computers/My Laptop/Documents/HOTS Database/Final Paper/RMarkDown/Sensitivity Test")
+#setwd("C:/Users/dlcyli/OneDrive/Ocean_temperature_variability_2022")
 
 library(gamm4)
 library(ggplot2)
@@ -73,12 +74,12 @@ gamm_daily_median <- gamm4(q_diurnal_median ~ s(lat_in_degrees) + s(depth_in_m),
 
 GAMMplot <- plotGAMM(gammFit = gamm_daily_median, smooth.cov = "lat_in_degrees", groupCovs = NULL, plotCI = T)
 
-plot1 = GAMMplot + geom_point(data=df_no_outliers[which(!is.na(df_no_outliers$q_diurnal_median)),], 
+plot1 = GAMMplot + geom_boxplot(data = temp_range_short_term, outlier.shape=NA, 
+                                aes(x=pseudo_climate, y=q_diurnal_median, color=climate_classification)) + 
+  geom_point(data=df_no_outliers[which(!is.na(df_no_outliers$q_diurnal_median)),], 
                              aes(x=lat_in_degrees, y=q_diurnal_median, color=climate_classification), alpha=alpha_value) +
   labs(x = "Absolute latitude", y = expression("Median of temperature range ("^o*"C)"),
        color = "Climate Classification") + theme_bw() + 
-  geom_boxplot(data = temp_range_short_term, outlier.shape=NA, 
-               aes(x=pseudo_climate, y=q_diurnal_median, color=climate_classification)) +
   theme(plot.title = element_text(hjust = 0.5, size=title_size),
         axis.title = element_text(size=axis_title_size),
         axis.title.x = element_blank(),
@@ -119,12 +120,13 @@ gamm_daily_median <- gamm4(s_diurnal_median ~ s(lat_in_degrees) + s(depth_in_m),
 
 GAMMplot <- plotGAMM(gammFit = gamm_daily_median, smooth.cov = "lat_in_degrees", groupCovs = NULL, plotCI = T)
 
-plot2 = GAMMplot + geom_point(data=df_no_outliers[which(!is.na(df_no_outliers$s_diurnal_median)),], 
+plot2 = GAMMplot + 
+  geom_boxplot(data = temp_range_short_term, outlier.shape=NA, 
+               aes(x=pseudo_climate, y=s_diurnal_median, color=climate_classification)) + 
+  geom_point(data=df_no_outliers[which(!is.na(df_no_outliers$s_diurnal_median)),], 
                              aes(x=lat_in_degrees, y=s_diurnal_median, color=climate_classification), alpha=alpha_value) +
   labs(x = "Absolute latitude", y = expression("Median of temperature range ("^o*"C)"),
        color = "Climate Classification") + theme_bw() + 
-  geom_boxplot(data = temp_range_short_term, outlier.shape=NA, 
-               aes(x=pseudo_climate, y=s_diurnal_median, color=climate_classification)) + 
   theme(plot.title = element_text(hjust = 0.5, size=title_size),
         axis.title.x = element_blank(),
         axis.text.x=element_text(size=axis_text_size),
@@ -165,12 +167,13 @@ gamm_daily_median <- gamm4(daily_median ~ s(lat_in_degrees) + s(depth_in_m),
 
 GAMMplot <- plotGAMM(gammFit = gamm_daily_median, smooth.cov = "lat_in_degrees", groupCovs = NULL, plotCI = T)
 
-plot3 = GAMMplot + geom_point(data=df_no_outliers[which(!is.na(df_no_outliers$daily_median)),], 
+plot3 = GAMMplot + 
+  geom_boxplot(data = temp_range_short_term, outlier.shape=NA, 
+               aes(x=pseudo_climate, y=daily_median, color=climate_classification)) +
+  geom_point(data=df_no_outliers[which(!is.na(df_no_outliers$daily_median)),], 
                               aes(x=lat_in_degrees, y=daily_median, color=climate_classification), alpha=alpha_value) +
   labs(x = "Absolute latitude", y = expression("Median of temperature range ("^o*"C)"),
        color = "Climate Classification") + theme_bw() + 
-  geom_boxplot(data = temp_range_short_term, outlier.shape=NA, 
-               aes(x=pseudo_climate, y=daily_median, color=climate_classification)) + 
   theme(plot.title = element_text(hjust = 0.5, size=title_size),
         axis.title.x = element_blank(),
         axis.text.x=element_text(size=axis_text_size),
@@ -192,7 +195,8 @@ plot3 = GAMMplot + geom_point(data=df_no_outliers[which(!is.na(df_no_outliers$da
              max(df_no_outliers %>% 
                    filter(climate_classification == "Subtropical") %>% 
                    .$daily_median, na.rm = TRUE)/10, 
-           label="*",color="black",size=asterisk_size)
+           label="*",color="black",size=asterisk_size) +
+  scale_y_continuous(labels = label_number(accuracy = 0.1))
 
 plot3 = plot3 + coord_cartesian(ylim = c(0,3))
 plot3 
@@ -220,12 +224,13 @@ gamm_daily_median <- gamm4(weekly_median ~ s(lat_in_degrees) + s(depth_in_m),
 
 GAMMplot <- plotGAMM(gammFit = gamm_daily_median, smooth.cov = "lat_in_degrees", groupCovs = NULL, plotCI = T)
 
-plot5 = GAMMplot + geom_point(data=df_no_outliers[which(!is.na(df_no_outliers$weekly_median)),], 
-                              aes(x=lat_in_degrees, y=weekly_median, color=climate_classification), alpha=alpha_value) +
-  labs(x = "Absolute latitude", y = expression("Median of temperature range ("^o*"C)"),
-       color = "Climate Classification") + theme_bw() + 
+plot5 = GAMMplot + 
   geom_boxplot(data = temp_range_short_term, outlier.shape=NA, 
-               aes(x=pseudo_climate, y=weekly_median, color=climate_classification)) + 
+               aes(x=pseudo_climate, y=weekly_median, color=climate_classification)) +
+  geom_point(data=df_no_outliers[which(!is.na(df_no_outliers$weekly_median)),], 
+                              aes(x=lat_in_degrees, y=weekly_median, color=climate_classification), alpha=alpha_value) +
+  labs(x = expression("Absolute latitude (" ^o* ")"), y = expression("Median of temperature range ("^o*"C)"),
+       color = "Climate Classification") + theme_bw() + 
   theme(plot.title = element_text(hjust = 0.5, size=title_size),
         axis.text.x=element_text(size=axis_text_size),
         axis.text.y=element_text(size=axis_text_size),
@@ -250,7 +255,8 @@ plot5 = GAMMplot + geom_point(data=df_no_outliers[which(!is.na(df_no_outliers$we
                    .$weekly_median, na.rm = TRUE) + 
              max(df_no_outliers %>% filter(climate_classification == "Tropical") %>% 
                      .$weekly_median, na.rm = TRUE)/10, 
-           label="*",color="black",size=asterisk_size)
+           label="*",color="black",size=asterisk_size) +
+  scale_y_continuous(labels = label_number(accuracy = 0.1))
 
 plot5 = plot5 + coord_cartesian(ylim = c(0,6))
 plot5 
@@ -269,12 +275,13 @@ gamm_daily_median <- gamm4(biweekly_median ~ s(lat_in_degrees) + s(depth_in_m),
 
 GAMMplot <- plotGAMM(gammFit = gamm_daily_median, smooth.cov = "lat_in_degrees", groupCovs = NULL, plotCI = T)
 
-plot6 = GAMMplot + geom_point(data=df_no_outliers[which(!is.na(df_no_outliers$biweekly_median)),], 
-                              aes(x=lat_in_degrees, y=biweekly_median, color=climate_classification), alpha=alpha_value) +
-  labs(x = "Absolute latitude", y = expression("Median of temperature range ("^o*"C)"),
-       color = "Climate Classification") + theme_bw() + 
+plot6 = GAMMplot + 
   geom_boxplot(data = temp_range_short_term, outlier.shape=NA, 
-               aes(x=pseudo_climate, y=biweekly_median, color=climate_classification)) + 
+               aes(x=pseudo_climate, y=biweekly_median, color=climate_classification)) +
+  geom_point(data=df_no_outliers[which(!is.na(df_no_outliers$biweekly_median)),], 
+                              aes(x=lat_in_degrees, y=biweekly_median, color=climate_classification), alpha=alpha_value) +
+  labs(x = expression("Absolute latitude (" ^o* ")"), y = expression("Median of temperature range ("^o*"C)"),
+       color = "Climate Classification") + theme_bw() + 
   theme(plot.title = element_text(hjust = 0.5, size=title_size),
         axis.text.x=element_text(size=axis_text_size),
         axis.text.y=element_text(size=axis_text_size),
@@ -300,7 +307,8 @@ plot6 = GAMMplot + geom_point(data=df_no_outliers[which(!is.na(df_no_outliers$bi
                    .$biweekly_median, na.rm = TRUE) + 
              max(df_no_outliers %>% filter(climate_classification == "Tropical") %>% 
                      .$biweekly_median, na.rm = TRUE)/10, 
-           label="*",color="black",size=asterisk_size)
+           label="*",color="black",size=asterisk_size) +
+  scale_y_continuous(labels = label_number(accuracy = 0.1))
 
 plot6 = plot6 + coord_cartesian(ylim = c(0,7.5))
 plot6 
@@ -319,12 +327,13 @@ gamm_daily_median <- gamm4(monthly_median ~ s(lat_in_degrees) + s(depth_in_m),
 
 GAMMplot <- plotGAMM(gammFit = gamm_daily_median, smooth.cov = "lat_in_degrees", groupCovs = NULL, plotCI = T)
 
-plot7 = GAMMplot + geom_point(data=df_no_outliers[which(!is.na(df_no_outliers$monthly_median)),], 
-                              aes(x=lat_in_degrees, y=monthly_median, color=climate_classification), alpha=alpha_value) +
-  labs(x = "Absolute latitude", y = expression("Median of temperature range ("^o*"C)"),
-       color = "Climate Classification") + theme_bw() + 
+plot7 = GAMMplot + 
   geom_boxplot(data = temp_range_short_term, outlier.shape=NA, 
-               aes(x=pseudo_climate, y=monthly_median, color=climate_classification)) + 
+               aes(x=pseudo_climate, y=monthly_median, color=climate_classification)) +
+  geom_point(data=df_no_outliers[which(!is.na(df_no_outliers$monthly_median)),], 
+                              aes(x=lat_in_degrees, y=monthly_median, color=climate_classification), alpha=alpha_value) +
+  labs(x = expression("Absolute latitude (" ^o* ")"), y = expression("Median of temperature range ("^o*"C)"),
+       color = "Climate Classification") + theme_bw() + 
   theme(plot.title = element_text(hjust = 0.5, size=title_size),
         axis.text.x=element_text(size=axis_text_size),
         axis.text.y=element_text(size=axis_text_size),
@@ -363,12 +372,13 @@ gamm_daily_median <- gamm4(annual_median ~ s(lat_in_degrees) + s(depth_in_m),
 
 GAMMplot <- plotGAMM(gammFit = gamm_daily_median, smooth.cov = "lat_in_degrees", groupCovs = NULL, plotCI = T)
 
-plot8 = GAMMplot + geom_point(data=df_no_outliers[which(!is.na(df_no_outliers$annual_median)),], 
-                              aes(x=lat_in_degrees, y=annual_median, color=climate_classification), alpha=alpha_value) +
-  labs(x = "Absolute latitude", y = expression("Median of temperature range ("^o*"C)"),
-       color = "Climate Classification") + theme_bw() + 
+plot8 = GAMMplot + 
   geom_boxplot(data = temp_range_annual, outlier.shape=NA, 
-               aes(x=pseudo_climate, y=annual_median, color=climate_classification)) + 
+               aes(x=pseudo_climate, y=annual_median, color=climate_classification)) +
+  geom_point(data=df_no_outliers[which(!is.na(df_no_outliers$annual_median)),], 
+                              aes(x=lat_in_degrees, y=annual_median, color=climate_classification), alpha=alpha_value) +
+  labs(x = expression("Absolute latitude (" ^o* ")"), y = expression("Median of temperature range ("^o*"C)"),
+       color = "Climate Classification") + theme_bw() + 
   theme(plot.title = element_text(hjust = 0.5, size=title_size),
         axis.text.x=element_text(size=axis_text_size),
         axis.text.y=element_text(size=axis_text_size),
@@ -394,10 +404,13 @@ plot8 = GAMMplot + geom_point(data=df_no_outliers[which(!is.na(df_no_outliers$an
                    .$annual_median, na.rm = TRUE) + 
              max(df_no_outliers %>% filter(climate_classification == "Tropical") %>% 
                      .$annual_median, na.rm = TRUE)/10, 
-           label="*",color="black",size=asterisk_size)
+           label="*",color="black",size=asterisk_size) +
+  scale_y_continuous(labels = label_number(accuracy = 0.1))
+
 
 plot8 = plot8 + coord_cartesian(ylim = c(0,21))
 plot8 
 
 ggsave(filename="Supp_Fig5.png",height=5, width=11, units="in", 
-       plot=grid.arrange(plot1, plot2, plot3, plot4, plot5, plot6, plot7, plot8, ncol = 4), device="png")
+       plot=grid.arrange(plot1, plot2, plot3, plot5, plot6, plot7, plot8, plot4, ncol = 2), 
+       device="png")
