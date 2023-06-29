@@ -85,13 +85,14 @@ plot1 = GAMMplot + geom_boxplot(data = temp_range_short_term, outlier.shape=NA,
         axis.title.x = element_blank(),
         axis.text.x=element_text(size=axis_text_size),
         axis.text.y=element_text(size=axis_text_size),
-        panel.border = element_rect(colour = "black", fill=NA, size=1),
-        panel.grid.major = element_blank(), 
+        axis.line = element_line(colour = "black"),
+        panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
+        panel.border = element_blank(),
         legend.position = "none", 
-        plot.margin=unit(c(0.3,0.2,0.3,0.2), "cm")) +
+        plot.margin=unit(c(0.3,0,0.3,0.2), "cm")) +
   ggtitle("Quarter-diurnal (6 hrs)") +
-  scale_color_manual(values=c("#F65058FF", "#D5A458", "#79CEDC")) + 
+  scale_color_manual(values=c("#D5A458", "#79CEDC", "#F65058FF")) + 
   annotation_custom(grobTree(textGrob(expression(bold("a")), x=0.05,  y=0.92,
                                       gp=gpar(fontsize=15)))) +
   annotate(geom="text", x=27.5, 
@@ -132,13 +133,14 @@ plot2 = GAMMplot +
         axis.text.x=element_text(size=axis_text_size),
         axis.text.y=element_text(size=axis_text_size),
         axis.title.y=element_blank(),
-        panel.border = element_rect(colour = "black", fill=NA, size=1),
-        panel.grid.major = element_blank(), 
+        axis.line = element_line(colour = "black"),
+        panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
+        panel.border = element_blank(),
         legend.position = "none", 
-        plot.margin=unit(c(0.3,0.2,0.3,0.2), "cm")) +
+        plot.margin=unit(c(0.3,0.2,0.3,0.5), "cm")) +
   ggtitle("Semi-diurnal (12 hrs)") +
-  scale_color_manual(values=c("#F65058FF", "#D5A458", "#79CEDC")) + 
+  scale_color_manual(values=c("#D5A458", "#79CEDC", "#F65058FF")) + 
   annotation_custom(grobTree(textGrob(expression(bold("b")), x=0.05,  y=0.92,
                                       gp=gpar(fontsize=15)))) +
   annotate(geom="text", x=27.5, 
@@ -179,13 +181,14 @@ plot3 = GAMMplot +
         axis.text.x=element_text(size=axis_text_size),
         axis.text.y=element_text(size=axis_text_size),
         axis.title.y=element_blank(),
-        panel.border = element_rect(colour = "black", fill=NA, size=1),
-        panel.grid.major = element_blank(), 
+        axis.line = element_line(colour = "black"),
+        panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
+        panel.border = element_blank(),
         legend.position = "none", 
-        plot.margin=unit(c(0.3,0.2,0.3,0.2), "cm")) +
+        plot.margin=unit(c(0.3,0.4,0.3,0.3), "cm")) +
   ggtitle("Diurnal (24 hrs)") +
-  scale_color_manual(values=c("#F65058FF", "#D5A458", "#79CEDC")) + 
+  scale_color_manual(values=c("#D5A458", "#79CEDC", "#F65058FF")) + 
   annotation_custom(grobTree(textGrob(expression(bold("c")), x=0.05,  y=0.92,
                                       gp=gpar(fontsize=15)))) +
   annotate(geom="text", x=27.5, 
@@ -237,13 +240,14 @@ plot5 = GAMMplot +
         axis.title.y=element_blank(),
         axis.title.x=element_blank(),
         axis.title = element_text(size=axis_title_size),
-        panel.border = element_rect(colour = "black", fill=NA, size=1),
-        panel.grid.major = element_blank(), 
+        axis.line = element_line(colour = "black"),
+        panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
+        panel.border = element_blank(),
         legend.position = "none", 
-        plot.margin=unit(c(0.3,0.2,0.3,0.2), "cm")) +
+        plot.margin=unit(c(0.3,0.6,0.3,0.1), "cm")) +
   ggtitle("Weekly") +
-  scale_color_manual(values=c("#F65058FF", "#D5A458", "#79CEDC")) + 
+  scale_color_manual(values=c("#D5A458", "#79CEDC", "#F65058FF")) + 
   annotation_custom(grobTree(textGrob(expression(bold("d")), x=0.05,  y=0.92,
                                       gp=gpar(fontsize=15)))) +
   annotate(geom="text", x=10, 
@@ -288,13 +292,14 @@ plot6 = GAMMplot +
         axis.text.x=element_text(size=axis_text_size),
         axis.text.y=element_text(size=axis_text_size),
         axis.title = element_text(size=axis_title_size),
-        panel.border = element_rect(colour = "black", fill=NA, size=1),
-        panel.grid.major = element_blank(), 
+        axis.line = element_line(colour = "black"),
+        panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
+        panel.border = element_blank(),
         legend.position = "none", 
-        plot.margin=unit(c(0,0.2,0.1,0.2), "cm")) +
+        plot.margin=unit(c(0,0,0.1,0.2), "cm")) +
   ggtitle("Biweekly") +
-  scale_color_manual(values=c("#F65058FF", "#D5A458", "#79CEDC")) + 
+  scale_color_manual(values=c("#D5A458", "#79CEDC", "#F65058FF")) + 
   annotation_custom(grobTree(textGrob(expression(bold("e")), x=0.05,  y=0.92,
                                       gp=gpar(fontsize=15)))) +
   annotate(geom="text", x=10, 
@@ -340,13 +345,14 @@ plot7 = GAMMplot +
         axis.text.y=element_text(size=axis_text_size),
         axis.title.y=element_blank(),
         axis.title = element_text(size=axis_title_size),
-        panel.border = element_rect(colour = "black", fill=NA, size=1),
-        panel.grid.major = element_blank(), 
+        axis.line = element_line(colour = "black"),
+        panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
+        panel.border = element_blank(),
         legend.position = "none", 
-        plot.margin=unit(c(0,0.2,0.1,0.1), "cm")) +
+        plot.margin=unit(c(0,0.2,0.1,0.4), "cm")) +
   ggtitle("Monthly") +
-  scale_color_manual(values=c("#F65058FF", "#D5A458", "#79CEDC")) + 
+  scale_color_manual(values=c("#D5A458", "#79CEDC", "#F65058FF")) + 
   annotation_custom(grobTree(textGrob(expression(bold("f")), x=0.05,  y=0.92,
                                       gp=gpar(fontsize=15)))) +
   annotate(geom="text", x=10, 
@@ -385,13 +391,14 @@ plot8 = GAMMplot +
         axis.text.y=element_text(size=axis_text_size),
         axis.title.y=element_blank(),
         axis.title = element_text(size=axis_title_size),
-        panel.border = element_rect(colour = "black", fill=NA, size=1),
-        panel.grid.major = element_blank(), 
+        axis.line = element_line(colour = "black"),
+        panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
+        panel.border = element_blank(),
         legend.position = "none", 
-        plot.margin=unit(c(0,0.2,0.1,0.1), "cm")) +
+        plot.margin=unit(c(0,0.4,0.1,0.2), "cm")) +
   ggtitle("Annual") +
-  scale_color_manual(values=c("#F65058FF", "#D5A458", "#79CEDC")) + 
+  scale_color_manual(values=c("#D5A458", "#79CEDC", "#F65058FF")) + 
   annotation_custom(grobTree(textGrob(expression(bold("g")), x=0.05,  y=0.92,
                                       gp=gpar(fontsize=15)))) +
   annotate(geom="text", x=10, 
