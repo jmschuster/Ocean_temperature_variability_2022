@@ -128,6 +128,9 @@ plot1 = GAMMplot + geom_boxplot(data = br_diff_short_term, outlier.shape=NA,
 plot1 = plot1 + coord_cartesian(ylim = c(0,0.00000004))
 plot1 
 
+#sample size
+length(df_no_outliers[which(!is.na(df_no_outliers$q_diurnal_median)),]$q_diurnal_median) 
+
 # s_diurnal_median
 df_no_outliers <- br_diff_short_term %>% 
   group_by(climate_classification) %>%
@@ -181,6 +184,9 @@ plot2 = GAMMplot +
 plot2 = plot2 + coord_cartesian(ylim = c(0,0.00000007))
 plot2 
 
+#sample size
+length(df_no_outliers[which(!is.na(df_no_outliers$s_diurnal_median)),]$s_diurnal_median) 
+
 # daily_median
 df_no_outliers <- br_diff_short_term %>% 
   group_by(climate_classification) %>%
@@ -233,6 +239,9 @@ plot3 = GAMMplot +
 
 plot3 = plot3 + coord_cartesian(ylim = c(0,0.00000011))
 plot3 
+
+#sample size
+length(df_no_outliers[which(!is.na(df_no_outliers$daily_median)),]$daily_median) 
 
 # legend
 plot4 = GAMMplot + geom_point(data=df_no_outliers[which(!is.na(df_no_outliers$daily_median)),], 
@@ -297,6 +306,9 @@ plot5 = GAMMplot +
 plot5 = plot5 + coord_cartesian(ylim = c(0,0.00000025))
 plot5 
 
+#sample size
+length(df_no_outliers[which(!is.na(df_no_outliers$weekly_median)),]$weekly_median) 
+
 # biweekly_median
 df_no_outliers <- br_diff_short_term %>% 
   group_by(climate_classification) %>%
@@ -328,7 +340,7 @@ plot6 = GAMMplot +
         panel.border = element_blank(),
         legend.position = "none", 
         plot.margin=unit(c(0,0,0.1,0.2), "cm")) +
-  ggtitle("Biweekly") +
+  ggtitle("Bi-weekly") +
   scale_color_manual(values=c("#D5A458", "#79CEDC", "#F65058FF")) + 
   annotation_custom(grobTree(textGrob(expression(bold("e")), x=0.05,  y=0.92,
                                       gp=gpar(fontsize=15)))) +
@@ -348,6 +360,9 @@ plot6 = GAMMplot +
 
 plot6 = plot6 + coord_cartesian(ylim = c(0,0.0000003))
 plot6 
+
+#sample size
+length(df_no_outliers[which(!is.na(df_no_outliers$biweekly_median)),]$biweekly_median) 
 
 # monthly_median
 df_no_outliers <- br_diff_short_term %>% 
@@ -403,6 +418,9 @@ plot7 = GAMMplot +
 plot7 = plot7 + coord_cartesian(ylim = c(0,0.0000004))
 plot7 
 
+#sample size
+length(df_no_outliers[which(!is.na(df_no_outliers$monthly_median)),]$monthly_median) 
+
 # annual_median
 df_no_outliers <- br_diff_annual %>% 
   group_by(climate_classification) %>%
@@ -456,6 +474,9 @@ plot8 = GAMMplot +
 
 plot8 = plot8 + coord_cartesian(ylim = c(0,0.000001))
 plot8 
+
+#sample size
+length(df_no_outliers[which(!is.na(df_no_outliers$annual_median)),]$annual_median) 
 
 ggsave(filename="Fig5.png",height=5, width=11, units="in", 
        plot=grid.arrange(plot1, plot2, plot3, plot5, plot6, plot7, plot8, plot4, ncol = 4), 

@@ -108,6 +108,9 @@ plot1 = GAMMplot + geom_boxplot(data = temp_range_short_term, outlier.shape=NA,
 plot1 = plot1 + coord_cartesian(ylim = c(0,4))
 plot1 
 
+#sample size
+length(df_no_outliers[which(!is.na(df_no_outliers$q_diurnal_ninetieth_perc)),]$q_diurnal_ninetieth_perc) 
+
 # s_diurnal_ninetieth_perc
 df_no_outliers <- temp_range_short_term %>% 
   group_by(climate_classification) %>%
@@ -157,6 +160,9 @@ plot2 = GAMMplot +
 plot2 = plot2 + coord_cartesian(ylim = c(0,5))
 plot2 
 
+#sample size
+length(df_no_outliers[which(!is.na(df_no_outliers$s_diurnal_ninetieth_perc)),]$s_diurnal_ninetieth_perc)
+
 # daily_ninetieth_perc
 df_no_outliers <- temp_range_short_term %>% 
   group_by(climate_classification) %>%
@@ -205,6 +211,9 @@ plot3 = GAMMplot +
 
 plot3 = plot3 + coord_cartesian(ylim = c(0,6))
 plot3 
+
+#sample size
+length(df_no_outliers[which(!is.na(df_no_outliers$daily_ninetieth_perc)),]$daily_ninetieth_perc)
 
 # legend
 plot4 = GAMMplot + geom_point(data=df_no_outliers[which(!is.na(df_no_outliers$daily_ninetieth_perc)),], 
@@ -263,6 +272,9 @@ plot5 = GAMMplot +
 plot5 = plot5 + coord_cartesian(ylim = c(0,10))
 plot5 
 
+#sample size
+length(df_no_outliers[which(!is.na(df_no_outliers$weekly_ninetieth_perc)),]$weekly_ninetieth_perc)
+
 # biweekly_ninetieth_perc
 df_no_outliers <- temp_range_short_term %>% 
   group_by(climate_classification) %>%
@@ -294,7 +306,7 @@ plot6 = GAMMplot +
         panel.border = element_blank(),
         legend.position = "none", 
         plot.margin=unit(c(0,0,0.1,0.2), "cm")) +
-  ggtitle("Biweekly") +
+  ggtitle("Bi-weekly") +
   scale_color_manual(values=c("#D5A458", "#79CEDC", "#F65058FF")) + 
   annotation_custom(grobTree(textGrob(expression(bold("e")), x=0.05,  y=0.92,
                                       gp=gpar(fontsize=15)))) +
@@ -308,6 +320,9 @@ plot6 = GAMMplot +
 
 plot6 = plot6 + coord_cartesian(ylim = c(0,11))
 plot6 
+
+#sample size
+length(df_no_outliers[which(!is.na(df_no_outliers$biweekly_ninetieth_perc)),]$biweekly_ninetieth_perc)
 
 # monthly_ninetieth_perc
 df_no_outliers <- temp_range_short_term %>% 
@@ -354,6 +369,9 @@ plot7 = GAMMplot +
 
 plot7 = plot7 + coord_cartesian(ylim = c(0,12))
 plot7 
+
+#sample size
+length(df_no_outliers[which(!is.na(df_no_outliers$monthly_ninetieth_perc)),]$monthly_ninetieth_perc)
 
 # annual_ninetieth_perc
 df_no_outliers <- temp_range_annual %>% 
@@ -408,6 +426,9 @@ plot8 = GAMMplot +
 
 plot8 = plot8 + coord_cartesian(ylim = c(0,26))
 plot8 
+
+#sample size
+length(df_no_outliers[which(!is.na(df_no_outliers$annual_ninetieth_perc)),]$annual_ninetieth_perc)
 
 ggsave(filename="Fig4.png",height=5, width=11, units="in", 
        plot=grid.arrange(plot1, plot2, plot3, plot5, plot6, plot7, plot8, plot4, ncol = 4), 
