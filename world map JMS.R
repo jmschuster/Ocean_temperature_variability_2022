@@ -8,7 +8,7 @@ library(maps)
 library(dplyr)
 library(tidyverse)
 
-metadata = read.csv("metadata.csv")
+metadata = read.csv("metadata - Published version.csv")
 
 #filter by depth
 metadata = metadata[which(metadata$depth_in_m <= 12.5), ]
@@ -73,6 +73,19 @@ MAP<-mp + geom_point(data = metadata2,
 
 
 MAP
+
+LatRange <- ggplot(data=metadata2, aes(y=lat_in_degrees,x=0,color=climate_classification),size=2.5, alpha=0.6)+
+  theme_classic(base_size=13)+geom_point()+
+  theme(panel.background = element_rect(fill = "white", colour = "white", size = 0.5, linetype = "solid"),
+                                                 legend.position = 'none', #positions legend within plot at x and y
+                                                 legend.spacing.y = unit(0.1, "mm"),legend.title.align=0,
+                                                 legend.background = element_blank(),
+                                                 panel.border = element_rect(colour = "black", fill=NA, size=1),
+        axis.title.x=element_blank(), axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+  scale_color_manual(values=c("#FC440F", "#E8C547", "#50D8D7"))+ ylab("Latitudinal Range (°)")+
+  scale_y_continuous(expand = c(0,0), limits = c(-60, 90),position = "right")+scale_x_continuous(expand = c(0,0), limits = c(-1, 1))
+  
+
 
 # this saves fig as high-quality pdf
 setwd("~/Desktop/PhD/Publications/Li Chong et al. ocean temp variability")
