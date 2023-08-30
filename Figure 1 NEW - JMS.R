@@ -6,7 +6,8 @@
 
 rm(list = ls())
 
-setwd("~/Documents/GitHub/Ocean_temperature_variability_2022/")
+setwd("C:/Users/dlcyli/OneDrive/Ocean_temperature_variability_2022")
+#setwd("~/Documents/GitHub/Ocean_temperature_variability_2022/")
 library(ggplot2)
 library(ggmap)
 library(maptools)
@@ -111,8 +112,8 @@ LatRange
 ### Part 2: Time-series plots ###
 #################################
 
-rm(list = ls())
-setwd("~/Documents/GitHub/Ocean_temperature_variability_2022/")
+# rm(list = ls())
+# setwd("~/Documents/GitHub/Ocean_temperature_variability_2022/")
 
 library(ggplot2)
 library(measurements)
@@ -142,7 +143,7 @@ time1 = seq(from = as.POSIXct(df$measurement_date[1], tz = "GMT"),
 
 #default font is 11 when using text()
 assign(paste0("plot1"), ggplot(df, aes(x = time1, y = temp)) + geom_line(colour='#FC440F') + theme_classic() + 
-         labs(title = "Ecuador (0.87°S)") + geom_hline(yintercept=28.766,
+         labs(title = "Ecuador (0.87°S, 15 mins)") + geom_hline(yintercept=28.766,
                                                        linetype='dashed')+ 
          geom_hline(yintercept=15.031,linetype='dashed') +
          theme(plot.title = element_text(hjust = 0.5),
@@ -150,7 +151,9 @@ assign(paste0("plot1"), ggplot(df, aes(x = time1, y = temp)) + geom_line(colour=
                axis.title.x = element_blank(),
                text = element_text(size=12)) + ylab("Temperature (°C)") + 
          annotation_custom(grobTree(textGrob("a", x=0.08,  y=0.92,
-                                             gp=gpar(fontsize=15,fontface='bold'))))+ 
+                                             gp=gpar(fontsize=15,fontface='bold')))) + 
+         annotation_custom(grobTree(textGrob("Daily median: 2.62 °C & Monthly median: 7.65 °C", x=0.55,  y=0.12,
+                                             gp=gpar(fontsize=10)))) + 
          annotation_custom(grobTree(textGrob("Annual minimum", x=0.85,  y=0.34,
                                              gp=gpar(fontsize=10)))) + 
          annotation_custom(grobTree(textGrob("Annual maximum", x=0.85,  y=0.8,
@@ -174,7 +177,7 @@ time2 = seq(from = as.POSIXct(df$measurement_date[1], tz = "GMT"),
             to = as.POSIXct(y, tz = "GMT"), by = paste(freq, "mins"))
 
 assign(paste0("plot2"), ggplot(df, aes(x = time2, y = temp)) + geom_line(colour='#FC440F') + theme_classic() + 
-         labs(title = "Indian Ocean (12.00°S)") + geom_hline(yintercept=32.377,
+         labs(title = "Indian Ocean (12.00°S, 10 mins)") + geom_hline(yintercept=32.377,
                                                              linetype='dashed')+ 
          geom_hline(yintercept=24.639,linetype='dashed')+
          theme(plot.title = element_text(hjust = 0.5),
@@ -183,7 +186,9 @@ assign(paste0("plot2"), ggplot(df, aes(x = time2, y = temp)) + geom_line(colour=
                axis.title.y = element_blank(),
                text = element_text(size=12)) + 
          annotation_custom(grobTree(textGrob("b", x=0.08,  y=0.92,
-                                             gp=gpar(fontsize=15,fontface='bold'))))+ 
+                                             gp=gpar(fontsize=15,fontface='bold')))) + 
+         annotation_custom(grobTree(textGrob("Daily median: 0.38 °C & Monthly median: 2.07 °C", x=0.55,  y=0.12,
+                                             gp=gpar(fontsize=10)))) + 
          annotation_custom(grobTree(textGrob("Annual minimum", x=0.85,  y=0.62,
                                              gp=gpar(fontsize=10)))) + 
          annotation_custom(grobTree(textGrob("Annual maximum", x=0.85,  y=0.91,
@@ -210,7 +215,7 @@ time3 = seq(from = as.POSIXct(df$measurement_date[1], tz = "GMT"),
             to = as.POSIXct(y, tz = "GMT"), by = paste(freq, "mins"))
 
 assign(paste0("plot3"), ggplot(df, aes(x = time3, y = temp)) + geom_line(colour='#E8C547') + theme_classic() + 
-         labs(title = "Brazil (27.94°S)") + geom_hline(yintercept=25.416,
+         labs(title = "Brazil (27.94°S, 20 mins)") + geom_hline(yintercept=25.416,
                                                        linetype='dashed')+ 
          geom_hline(yintercept=14.517,linetype='dashed')+ 
          theme(plot.title = element_text(hjust = 0.5),
@@ -219,7 +224,9 @@ assign(paste0("plot3"), ggplot(df, aes(x = time3, y = temp)) + geom_line(colour=
                axis.title.y = element_blank(),
                text = element_text(size=12)) + ylab("Temperature (°C)") + 
          annotation_custom(grobTree(textGrob("c", x=0.08,  y=0.92,
-                                             gp=gpar(fontsize=15,fontface='bold'))))+ 
+                                             gp=gpar(fontsize=15,fontface='bold')))) + 
+         annotation_custom(grobTree(textGrob("Daily median: 0.67 °C & Monthly median: 4.76 °C", x=0.55,  y=0.12,
+                                             gp=gpar(fontsize=10)))) + 
          annotation_custom(grobTree(textGrob("Annual minimum", x=0.85,  y=0.32,
                                              gp=gpar(fontsize=10)))) + 
          annotation_custom(grobTree(textGrob("Annual maximum", x=0.85,  y=0.71,
@@ -243,7 +250,7 @@ time4 = seq(from = as.POSIXct(df$measurement_date[1], tz = "GMT"),
             to = as.POSIXct(y, tz = "GMT"), by = paste(freq, "mins"))
 
 assign(paste0("plot4"), ggplot(df, aes(x = time4, y = temp)) + geom_line(colour='#E8C547') + theme_classic() + 
-         labs(title = "Western Australia (20.90°S)") + geom_hline(yintercept=31.3002,
+         labs(title = "Western Australia (20.90°S, 10 mins)") + geom_hline(yintercept=31.3002,
                                                                   linetype='dashed')+ 
          geom_hline(yintercept=20.8347,linetype='dashed')+ 
          theme(plot.title = element_text(hjust = 0.5),
@@ -251,7 +258,9 @@ assign(paste0("plot4"), ggplot(df, aes(x = time4, y = temp)) + geom_line(colour=
                axis.title.x = element_blank(),
                text = element_text(size=12)) + ylab("Temperature (°C)") + 
          annotation_custom(grobTree(textGrob("d", x=0.08,  y=0.92,
-                                             gp=gpar(fontsize=15,fontface='bold'))))+ 
+                                             gp=gpar(fontsize=15,fontface='bold')))) + 
+         annotation_custom(grobTree(textGrob("Daily median: 0.60 °C & Monthly median: 2.89 °C", x=0.55,  y=0.12,
+                                             gp=gpar(fontsize=10)))) + 
          annotation_custom(grobTree(textGrob("Annual minimum", x=0.85,  y=0.51,
                                              gp=gpar(fontsize=10)))) + 
          annotation_custom(grobTree(textGrob("Annual maximum", x=0.85,  y=0.88,
@@ -276,7 +285,7 @@ time5 = seq(from = as.POSIXct(df$measurement_date[1], tz = "GMT"),
             to = as.POSIXct(y, tz = "GMT"), by = paste(freq, "mins"))
 
 assign(paste0("plot5"), ggplot(df, aes(x = time5, y = temp)) + geom_line(colour="#50D8D7") + theme_classic() + 
-         labs(title = "Tasmania (43.23°S)") + geom_hline(yintercept=20.793,
+         labs(title = "Tasmania (43.23°S, 1 hr)") + geom_hline(yintercept=20.793,
                                                          linetype='dashed')+ 
          geom_hline(yintercept=8.99,linetype='dashed')+ 
          theme(plot.title = element_text(hjust = 0.5),
@@ -285,7 +294,9 @@ assign(paste0("plot5"), ggplot(df, aes(x = time5, y = temp)) + geom_line(colour=
                axis.title.x = element_blank(),
                text = element_text(size=12)) + ylab("Temperature (°C)") + xlab("Year") + 
          annotation_custom(grobTree(textGrob("e", x=0.08,  y=0.92,
-                                             gp=gpar(fontsize=15,fontface='bold'))))+ 
+                                             gp=gpar(fontsize=15,fontface='bold')))) + 
+         annotation_custom(grobTree(textGrob("Daily median: 0.34 °C & Monthly median: 2.60 °C", x=0.55,  y=0.92,
+                                             gp=gpar(fontsize=10)))) + 
          annotation_custom(grobTree(textGrob("Annual minimum", x=0.85,  y=0.16,
                                              gp=gpar(fontsize=10)))) + 
          annotation_custom(grobTree(textGrob("Annual maximum", x=0.85,  y=0.575,
@@ -310,7 +321,7 @@ time6 = seq(from = as.POSIXct(df$measurement_date[1], tz = "GMT"),
             to = as.POSIXct(y, tz = "GMT"), by = paste(freq, "mins"))
 
 assign(paste0("plot6"), ggplot(df, aes(x = as.Date(time6), y = temp)) + geom_line(colour="#50D8D7") + theme_classic() + 
-         labs(title = "Chile (41.50°S)") + geom_hline(yintercept=21.71,
+         labs(title = "Chile (41.50°S, 1 hr)") + geom_hline(yintercept=21.71,
                                                       linetype='dashed')+ 
          geom_hline(yintercept=6.54,linetype='dashed')+ 
          theme(plot.title = element_text(hjust = 0.5),
@@ -319,7 +330,9 @@ assign(paste0("plot6"), ggplot(df, aes(x = as.Date(time6), y = temp)) + geom_lin
                axis.title.x = element_blank(),
                text = element_text(size=12)) + xlab("Year")+ scale_x_date(date_breaks='3 month',date_labels = "%b %Y") + 
          annotation_custom(grobTree(textGrob("f", x=0.08,  y=0.91,
-                                             gp=gpar(fontsize=15,fontface='bold'))))+ 
+                                             gp=gpar(fontsize=15,fontface='bold')))) + 
+         annotation_custom(grobTree(textGrob("Daily median: 1.58 °C & Monthly median: 6.17 °C", x=0.55,  y=0.92,
+                                             gp=gpar(fontsize=10)))) + 
          annotation_custom(grobTree(textGrob("Annual minimum", x=0.85,  y=0.09,
                                              gp=gpar(fontsize=10)))) + 
          annotation_custom(grobTree(textGrob("Annual maximum", x=0.85,  y=0.6,
@@ -347,7 +360,7 @@ grid.arrange(plot1, plot2,plot3,
 
 
 # Save final fig: 
-setwd("~/Desktop/PhD/Publications/Li Chong et al. ocean temp variability")
+#setwd("~/Desktop/PhD/Publications/Li Chong et al. ocean temp variability")
 ggsave(filename="Fig1_Aug2023_JMS.png",height=9, width=12.5, plot=grid.arrange(plot1, plot2,plot3,
                                                                             arrangeGrob(blankPlot,MAP,LatRange,widths=c(0.08,0.8,0.12)),
                                                                             plot4, plot5, plot6, ncol = 3, nrow=3, layout_matrix = layout,heights=c(1,2,1)), device="png")
