@@ -33,10 +33,26 @@ temp_range_short_term$pseudo_climate[which(temp_range_short_term$pseudo_climate 
 temp_range_short_term$pseudo_climate = as.double(temp_range_short_term$pseudo_climate)
 
 # statistics
-metadata_grouped <- temp_range_annual %>% 
+metadata_grouped2 <- temp_range_annual %>% 
   mutate(plot_id = gsub( " .*$", "", temp_range_annual$plot_id))
-metadata_grouped = metadata_grouped[match(unique(metadata_grouped$plot_id), metadata_grouped$plot_id),]
-table(metadata_grouped$climate_classification)
+metadata_grouped2 = metadata_grouped2[match(unique(metadata_grouped2$plot_id), metadata_grouped2$plot_id),]
+table(metadata_grouped2$climate_classification)
+
+# #N.B: Open world map JMS.R in G:\Other computers\My Laptop\Documents\HOTS Database\Final Paper\RMarkDown\Sensitivity Test
+# # to get metadata_grouped for the statistics of the studies in tropical regions out of the 169
+# metadata_grouped3 = metadata_grouped[which(metadata_grouped$plot_id %in% metadata_grouped2$plot_id),]
+# table(metadata_grouped3$climate_classification)
+# tropics_only = metadata_grouped3[which(metadata_grouped3$climate_classification == "Tropical"),]
+# table(tropics_only$data_source)
+# tropics_only$data_source_complete = NA
+# for (i in 1:length(tropics_only$id)) {
+#   if (tropics_only$data_source[i] == "Same as PI") {
+#     tropics_only$data_source_complete[i] = tropics_only$PI_contributor[i]
+#   } else {
+#     tropics_only$data_source_complete[i] = tropics_only$data_source[i]
+#   }
+# }
+# table(tropics_only$data_source_complete)
 
 remove_outliers <- function(x, na.rm=TRUE) {
   qnt <- quantile(x, probs=c(.25, .75), na.rm=TRUE)
@@ -78,11 +94,10 @@ plot1 = GAMMplot + geom_boxplot(data = temp_range_short_term, outlier.shape=NA,
                                 aes(x=pseudo_climate, y=q_diurnal_median, color=climate_classification)) + 
   geom_point(data=df_no_outliers[which(!is.na(df_no_outliers$q_diurnal_median)),], 
                              aes(x=lat_in_degrees, y=q_diurnal_median, color=climate_classification), alpha=alpha_value) +
-  labs(x = "Absolute latitude", y = expression("Median of temperature range (" ^o*"C)"),
+  labs(x = expression("Absolute latitude (" ^o* ")"), y = expression("Median of temperature range (" ^o*"C)"),
        color = "Climate Classification") + theme_bw() + 
-  theme(plot.title = element_text(hjust = 0.5, size=title_size),
+  theme(plot.title = element_text(hjust = 0.5, vjust = -1, size=title_size),
         axis.title = element_text(size=axis_title_size),
-        axis.title.x = element_blank(),
         axis.text.x=element_text(size=axis_text_size),
         axis.text.y=element_text(size=axis_text_size),
         axis.line = element_line(colour = "black"),
@@ -129,12 +144,12 @@ plot2 = GAMMplot +
                aes(x=pseudo_climate, y=s_diurnal_median, color=climate_classification)) + 
   geom_point(data=df_no_outliers[which(!is.na(df_no_outliers$s_diurnal_median)),], 
                              aes(x=lat_in_degrees, y=s_diurnal_median, color=climate_classification), alpha=alpha_value) +
-  labs(x = "Absolute latitude", y = expression("Median of temperature range ("^o*"C)"),
+  labs(x = expression("Absolute latitude (" ^o* ")"), y = expression("Median of temperature range ("^o*"C)"),
        color = "Climate Classification") + theme_bw() + 
-  theme(plot.title = element_text(hjust = 0.5, size=title_size),
-        axis.title.x = element_blank(),
+  theme(plot.title = element_text(hjust = 0.5, vjust = -1, size=title_size),
         axis.text.x=element_text(size=axis_text_size),
         axis.text.y=element_text(size=axis_text_size),
+        axis.title = element_text(size=axis_title_size),
         axis.title.y=element_blank(),
         axis.line = element_line(colour = "black"),
         panel.grid.major = element_blank(),
@@ -180,12 +195,12 @@ plot3 = GAMMplot +
                aes(x=pseudo_climate, y=daily_median, color=climate_classification)) +
   geom_point(data=df_no_outliers[which(!is.na(df_no_outliers$daily_median)),], 
                               aes(x=lat_in_degrees, y=daily_median, color=climate_classification), alpha=alpha_value) +
-  labs(x = "Absolute latitude", y = expression("Median of temperature range ("^o*"C)"),
+  labs(x = expression("Absolute latitude (" ^o* ")"), y = expression("Median of temperature range ("^o*"C)"),
        color = "Climate Classification") + theme_bw() + 
-  theme(plot.title = element_text(hjust = 0.5, size=title_size),
-        axis.title.x = element_blank(),
+  theme(plot.title = element_text(hjust = 0.5, vjust = -1, size=title_size),
         axis.text.x=element_text(size=axis_text_size),
         axis.text.y=element_text(size=axis_text_size),
+        axis.title = element_text(size=axis_title_size),
         axis.title.y=element_blank(),
         axis.line = element_line(colour = "black"),
         panel.grid.major = element_blank(),
@@ -243,11 +258,10 @@ plot5 = GAMMplot +
                               aes(x=lat_in_degrees, y=weekly_median, color=climate_classification), alpha=alpha_value) +
   labs(x = expression("Absolute latitude (" ^o* ")"), y = expression("Median of temperature range ("^o*"C)"),
        color = "Climate Classification") + theme_bw() + 
-  theme(plot.title = element_text(hjust = 0.5, size=title_size),
+  theme(plot.title = element_text(hjust = 0.5, vjust = -1, size=title_size),
         axis.text.x=element_text(size=axis_text_size),
         axis.text.y=element_text(size=axis_text_size),
         axis.title.y=element_blank(),
-        axis.title.x=element_blank(),
         axis.title = element_text(size=axis_title_size),
         axis.line = element_line(colour = "black"),
         panel.grid.major = element_blank(),
@@ -300,7 +314,7 @@ plot6 = GAMMplot +
                               aes(x=lat_in_degrees, y=biweekly_median, color=climate_classification), alpha=alpha_value) +
   labs(x = expression("Absolute latitude (" ^o* ")"), y = expression("Median of temperature range (" ^o*"C)"),
        color = "Climate Classification") + theme_bw() + 
-  theme(plot.title = element_text(hjust = 0.5, size=title_size),
+  theme(plot.title = element_text(hjust = 0.5, vjust = -1, size=title_size),
         axis.text.x=element_text(size=axis_text_size),
         axis.text.y=element_text(size=axis_text_size),
         axis.title = element_text(size=axis_title_size),
@@ -355,7 +369,7 @@ plot7 = GAMMplot +
                               aes(x=lat_in_degrees, y=monthly_median, color=climate_classification), alpha=alpha_value) +
   labs(x = expression("Absolute latitude (" ^o* ")"), y = expression("Median of temperature range ("^o*"C)"),
        color = "Climate Classification") + theme_bw() + 
-  theme(plot.title = element_text(hjust = 0.5, size=title_size),
+  theme(plot.title = element_text(hjust = 0.5, vjust = -1, size=title_size),
         axis.text.x=element_text(size=axis_text_size),
         axis.text.y=element_text(size=axis_text_size),
         axis.title.y=element_blank(),
@@ -404,7 +418,7 @@ plot8 = GAMMplot +
                               aes(x=lat_in_degrees, y=annual_median, color=climate_classification), alpha=alpha_value) +
   labs(x = expression("Absolute latitude (" ^o* ")"), y = expression("Median of temperature range ("^o*"C)"),
        color = "Climate Classification") + theme_bw() + 
-  theme(plot.title = element_text(hjust = 0.5, size=title_size),
+  theme(plot.title = element_text(hjust = 0.5, vjust = -1, size=title_size),
         axis.text.x=element_text(size=axis_text_size),
         axis.text.y=element_text(size=axis_text_size),
         axis.title.y=element_blank(),

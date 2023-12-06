@@ -26,7 +26,7 @@ theme_JMS <- function () {
   )
 }
 
-metadata = read.csv("metadata - Published version.csv")
+metadata = read.csv("metadata.csv")
 
 #filter by depth
 metadata = metadata[which(metadata$depth_in_m <= 12.5), ]
@@ -58,18 +58,58 @@ metadata2$climate_classification <- factor(metadata2$climate_classification ,
 # metadata2 = metadata2[-which(metadata2$data_source == "Pacific Marine Environmental Laboratory"),]
 # #
 
+### Recenter ####
+
+center <- 200 # positive values only - US centered view is 260
+
+# shift coordinates to recenter loggers
+metadata2$long.recenter <-  ifelse(metadata2$long_in_degrees < center - 180 , 
+                                   metadata2$long_in_degrees + 360, metadata2$long_in_degrees) 
+
+# shift coordinates to recenter world
 world <- map_data("world")
+world$long.recenter <-  ifelse(world$long  < center - 180 , world$long + 360, world$long)
 
+### Function to regroup split lines and polygons
+# takes dataframe, column with long and unique group variable, returns df with added column named group.regroup
+RegroupElements <- function(df, longcol, idcol){  
+  g <- rep(1, length(df[,longcol]))
+  if (diff(range(df[,longcol])) > 300) {          # check if longitude within group differs more than 300 deg, ie if element was split
+    d <- df[,longcol] > mean(range(df[,longcol])) # we use the mean to help us separate the extreme values
+    g[!d] <- 1     # some marker for parts that stay in place (we cheat here a little, as we do not take into account concave polygons)
+    g[d] <- 2      # parts that are moved
+  }
+  g <-  paste(df[, idcol], g, sep=".") # attach to id to create unique group variable for the dataset
+  df$group.regroup <- g
+  df
+}
+
+### Function to close regrouped polygons
+# takes dataframe, checks if 1st and last longitude value are the same, if not, inserts first as last and reassigns order variable
+ClosePolygons <- function(df, longcol, ordercol){
+  if (df[1,longcol] != df[nrow(df),longcol]) {
+    tmp <- df[1,]
+    df <- rbind(df,tmp)
+  }
+  o <- c(1: nrow(df))  # rassign the order variable
+  df[,ordercol] <- o
+  df
+}
+
+library(plyr)
+# now regroup
+worldmap.rg <- ddply(world, .(group), RegroupElements, "long.recenter", "group")
+
+# close polys
+worldmap.cp <- ddply(worldmap.rg, .(group.regroup), ClosePolygons, "long.recenter", "order")  # use the new grouping var
+
+# plot
 mp <- ggplot() +
-  geom_map(
-    data = world, map = world,
-    aes(long, lat, map_id = region),
-    color = "lightgray", fill = "lightgray", size = 0.1
-  ) + theme_bw() 
-
+  geom_polygon(aes(long.recenter,lat,group=group.regroup), size = 0.1, 
+               fill="lightgray", colour = "lightgray", data=worldmap.cp) + theme_bw() 
 
 MAP<-mp + geom_point(data = metadata2, 
-                     aes(x = long_in_degrees, y = lat_in_degrees, 
+                     aes(x = long.recenter, y = lat_in_degrees, 
                          color = climate_classification), size = 3.5, alpha = 0.6)+theme_JMS() +
   labs(color="Climate classification ") + 
   scale_size(guide = "none") + 
@@ -82,7 +122,8 @@ MAP<-mp + geom_point(data = metadata2,
         panel.border = element_rect(colour = "black", fill=NA, size=1),
         axis.title=element_blank(), axis.text=element_blank(), axis.ticks=element_blank())+ # adds box around legend and fixes spacing 
   scale_color_manual(values=c("#FC440F", "#E8C547", "#50D8D7"))+ 
-  scale_y_continuous(expand = c(0,0), limits = c(-60, 90))+scale_x_continuous(expand = c(0,0), limits = c(-180, 190)) +
+  scale_y_continuous(expand = c(0,0), limits = c(-60, 90))+
+  scale_x_continuous(expand = c(0,0), limits = c(-180, 190)) +
   annotate('text',x=-82.58167, y = -0.871389 , label = 'a', size =7,fontface='bold')+
   annotate('text',x=55 , y = -12 , label = 'b', size =7,fontface='bold')+
   annotate('text',x=-48.5451 , y = -27.9354 , label = 'c', size =7,fontface='bold')+
