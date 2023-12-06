@@ -430,6 +430,6 @@ plot8
 #sample size
 length(df_no_outliers[which(!is.na(df_no_outliers$annual_ninetieth_perc)),]$annual_ninetieth_perc)
 
-ggsave(filename="Fig4.png",height=5, width=11, units="in", 
+ggsave(filename="Fig3.png",height=5, width=11, units="in", 
        plot=grid.arrange(plot1, plot2, plot3, plot5, plot6, plot7, plot8, plot4, ncol = 4), 
        device="png")

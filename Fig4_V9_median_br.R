@@ -75,26 +75,26 @@ panel_label_annual_spacing = 0.2
 asterisk_size = 5
 
 ###
-# q_diurnal_ninetieth_perc
+# q_diurnal_median
 df_no_outliers <- br_diff_short_term %>% 
   group_by(climate_classification) %>%
-  mutate(q_diurnal_ninetieth_perc = remove_outliers(q_diurnal_ninetieth_perc))
+  mutate(q_diurnal_median = remove_outliers(q_diurnal_median))
 
 df_no_outliers$lat_in_degrees = abs(df_no_outliers$lat_in_degrees)
 df_no_outliers$climate_classification <- factor(df_no_outliers$climate_classification , 
                                                 levels=c("Tropical", "Subtropical", "Temperate"))
 
-gamm_daily_ninetieth_perc <- gamm4(q_diurnal_ninetieth_perc ~ s(lat_in_degrees) + s(depth_in_m),
+gamm_daily_median <- gamm4(q_diurnal_median ~ s(lat_in_degrees) + s(depth_in_m),
                            random = ~ (1|spatial_blocks/plot_id), 
-                           data=df_no_outliers[which(!is.na(df_no_outliers$q_diurnal_ninetieth_perc)),])
+                           data=df_no_outliers[which(!is.na(df_no_outliers$q_diurnal_median)),])
 
-GAMMplot <- plotGAMM(gammFit = gamm_daily_ninetieth_perc, smooth.cov = "lat_in_degrees", groupCovs = NULL, plotCI = T)
+GAMMplot <- plotGAMM(gammFit = gamm_daily_median, smooth.cov = "lat_in_degrees", groupCovs = NULL, plotCI = T)
 
 plot1 = GAMMplot + geom_boxplot(data = br_diff_short_term, outlier.shape=NA, 
-                                aes(x=pseudo_climate, y=q_diurnal_ninetieth_perc, color=climate_classification)) + 
-  geom_point(data=df_no_outliers[which(!is.na(df_no_outliers$q_diurnal_ninetieth_perc)),], 
-                             aes(x=lat_in_degrees, y=q_diurnal_ninetieth_perc, color=climate_classification), alpha=alpha_value) +
-  labs(x = "Absolute latitude", y = expression("90"^th*" percentile of biological rates (Wg"^-1*")"),
+                                aes(x=pseudo_climate, y=q_diurnal_median, color=climate_classification)) + 
+  geom_point(data=df_no_outliers[which(!is.na(df_no_outliers$q_diurnal_median)),], 
+                             aes(x=lat_in_degrees, y=q_diurnal_median, color=climate_classification), alpha=alpha_value) +
+  labs(x = "Absolute latitude", y = expression("Median of biological rates (Wg"^-1*")"),
        color = "Climate Classification") + theme_bw() + 
   theme(plot.title = element_text(hjust = 0.5, size=title_size),
         axis.title = element_text(size=axis_title_size),
@@ -113,44 +113,44 @@ plot1 = GAMMplot + geom_boxplot(data = br_diff_short_term, outlier.shape=NA,
                                       gp=gpar(fontsize=15)))) +
   annotate(geom="text", x=10, 
            y=max(df_no_outliers %>% filter(climate_classification == "Tropical") %>% 
-                   .$q_diurnal_ninetieth_perc, na.rm = TRUE) + 
+                   .$q_diurnal_median, na.rm = TRUE) + 
              max(df_no_outliers %>% filter(climate_classification == "Tropical") %>% 
-                   .$q_diurnal_ninetieth_perc, na.rm = TRUE)/10, 
+                   .$q_diurnal_median, na.rm = TRUE)/10, 
            label="*",color="black",size=asterisk_size)+
   annotate(geom="text", x=27.5, 
            y=max(df_no_outliers %>% filter(climate_classification == "Subtropical") %>% 
-                   .$q_diurnal_ninetieth_perc, na.rm = TRUE) + 
+                   .$q_diurnal_median, na.rm = TRUE) + 
              max(df_no_outliers %>% filter(climate_classification == "Tropical") %>% 
-                   .$q_diurnal_ninetieth_perc, na.rm = TRUE)/10, 
+                   .$q_diurnal_median, na.rm = TRUE)/10, 
            label="*",color="black",size=asterisk_size) +
-  scale_y_continuous(labels = scinot) 
+  scale_y_continuous(labels = scientific_10_1dp)
 
-plot1 = plot1 + coord_cartesian(ylim = c(0,0.00000015))
+plot1 = plot1 + coord_cartesian(ylim = c(0,0.00000004))
 plot1 
 
 #sample size
-length(df_no_outliers[which(!is.na(df_no_outliers$q_diurnal_ninetieth_perc)),]$q_diurnal_ninetieth_perc)
+length(df_no_outliers[which(!is.na(df_no_outliers$q_diurnal_median)),]$q_diurnal_median) 
 
-# s_diurnal_ninetieth_perc
+# s_diurnal_median
 df_no_outliers <- br_diff_short_term %>% 
   group_by(climate_classification) %>%
-  mutate(s_diurnal_ninetieth_perc = remove_outliers(s_diurnal_ninetieth_perc))
+  mutate(s_diurnal_median = remove_outliers(s_diurnal_median))
 
 df_no_outliers$lat_in_degrees = abs(df_no_outliers$lat_in_degrees)
 df_no_outliers$climate_classification <- factor(df_no_outliers$climate_classification , 
                                                 levels=c("Tropical", "Subtropical", "Temperate"))
-gamm_daily_ninetieth_perc <- gamm4(s_diurnal_ninetieth_perc ~ s(lat_in_degrees) + s(depth_in_m),
+gamm_daily_median <- gamm4(s_diurnal_median ~ s(lat_in_degrees) + s(depth_in_m),
                            random = ~ (1|spatial_blocks/plot_id), 
-                           data = df_no_outliers[which(!is.na(df_no_outliers$s_diurnal_ninetieth_perc)),])
+                           data = df_no_outliers[which(!is.na(df_no_outliers$s_diurnal_median)),])
 
-GAMMplot <- plotGAMM(gammFit = gamm_daily_ninetieth_perc, smooth.cov = "lat_in_degrees", groupCovs = NULL, plotCI = T)
+GAMMplot <- plotGAMM(gammFit = gamm_daily_median, smooth.cov = "lat_in_degrees", groupCovs = NULL, plotCI = T)
 
 plot2 = GAMMplot + 
   geom_boxplot(data = br_diff_short_term, outlier.shape=NA, 
-               aes(x=pseudo_climate, y=s_diurnal_ninetieth_perc, color=climate_classification)) + 
-  geom_point(data=df_no_outliers[which(!is.na(df_no_outliers$s_diurnal_ninetieth_perc)),], 
-                             aes(x=lat_in_degrees, y=s_diurnal_ninetieth_perc, color=climate_classification), alpha=alpha_value) +
-  labs(x = "Absolute latitude", y = expression("90"^th*" percentile of biological rates (Wg"^-1*")"),
+               aes(x=pseudo_climate, y=s_diurnal_median, color=climate_classification)) + 
+  geom_point(data=df_no_outliers[which(!is.na(df_no_outliers$s_diurnal_median)),], 
+                             aes(x=lat_in_degrees, y=s_diurnal_median, color=climate_classification), alpha=alpha_value) +
+  labs(x = "Absolute latitude", y = expression("Median of biological rates (Wg"^-1*")"),
        color = "Climate Classification") + theme_bw() + 
   theme(plot.title = element_text(hjust = 0.5, size=title_size),
         axis.title.x = element_blank(),
@@ -169,44 +169,44 @@ plot2 = GAMMplot +
                                       gp=gpar(fontsize=15)))) +
   annotate(geom="text", x=10, 
            y=max(df_no_outliers %>% filter(climate_classification == "Tropical") %>% 
-                   .$s_diurnal_ninetieth_perc, na.rm = TRUE) + 
+                   .$s_diurnal_median, na.rm = TRUE) + 
              max(df_no_outliers %>% filter(climate_classification == "Tropical") %>% 
-                   .$s_diurnal_ninetieth_perc, na.rm = TRUE)/10, 
+                   .$s_diurnal_median, na.rm = TRUE)/10, 
            label="*",color="black",size=asterisk_size)+
   annotate(geom="text", x=27.5, 
            y=max(df_no_outliers %>% filter(climate_classification == "Subtropical") %>% 
-                   .$s_diurnal_ninetieth_perc, na.rm = TRUE) + 
+                   .$s_diurnal_median, na.rm = TRUE) + 
              max(df_no_outliers %>% filter(climate_classification == "Tropical") %>% 
-                   .$s_diurnal_ninetieth_perc, na.rm = TRUE)/10, 
+                   .$s_diurnal_median, na.rm = TRUE)/10, 
            label="*",color="black",size=asterisk_size) +
-  scale_y_continuous(labels = scinot)
+  scale_y_continuous(labels = scientific_10_1dp)
 
-plot2 = plot2 + coord_cartesian(ylim = c(0,0.0000002))
+plot2 = plot2 + coord_cartesian(ylim = c(0,0.00000007))
 plot2 
 
 #sample size
-length(df_no_outliers[which(!is.na(df_no_outliers$s_diurnal_ninetieth_perc)),]$s_diurnal_ninetieth_perc)
+length(df_no_outliers[which(!is.na(df_no_outliers$s_diurnal_median)),]$s_diurnal_median) 
 
-# daily_ninetieth_perc
+# daily_median
 df_no_outliers <- br_diff_short_term %>% 
   group_by(climate_classification) %>%
-  mutate(daily_ninetieth_perc = remove_outliers(daily_ninetieth_perc))
+  mutate(daily_median = remove_outliers(daily_median))
 
 df_no_outliers$lat_in_degrees = abs(df_no_outliers$lat_in_degrees)
 df_no_outliers$climate_classification <- factor(df_no_outliers$climate_classification , 
                                              levels=c("Tropical", "Subtropical", "Temperate"))
-gamm_daily_ninetieth_perc <- gamm4(daily_ninetieth_perc ~ s(lat_in_degrees) + s(depth_in_m),
+gamm_daily_median <- gamm4(daily_median ~ s(lat_in_degrees) + s(depth_in_m),
                            random = ~ (1|spatial_blocks/plot_id), 
-                           data = df_no_outliers[which(!is.na(df_no_outliers$daily_ninetieth_perc)),])
+                           data = df_no_outliers[which(!is.na(df_no_outliers$daily_median)),])
 
-GAMMplot <- plotGAMM(gammFit = gamm_daily_ninetieth_perc, smooth.cov = "lat_in_degrees", groupCovs = NULL, plotCI = T)
+GAMMplot <- plotGAMM(gammFit = gamm_daily_median, smooth.cov = "lat_in_degrees", groupCovs = NULL, plotCI = T)
 
 plot3 = GAMMplot + 
   geom_boxplot(data = br_diff_short_term, outlier.shape=NA, 
-               aes(x=pseudo_climate, y=daily_ninetieth_perc, color=climate_classification)) +
-  geom_point(data=df_no_outliers[which(!is.na(df_no_outliers$daily_ninetieth_perc)),], 
-                              aes(x=lat_in_degrees, y=daily_ninetieth_perc, color=climate_classification), alpha=alpha_value) +
-  labs(x = "Absolute latitude", y = expression("90"^th*" percentile of biological rates (Wg"^-1*")"),
+               aes(x=pseudo_climate, y=daily_median, color=climate_classification)) +
+  geom_point(data=df_no_outliers[which(!is.na(df_no_outliers$daily_median)),], 
+                              aes(x=lat_in_degrees, y=daily_median, color=climate_classification), alpha=alpha_value) +
+  labs(x = "Absolute latitude", y = expression("Median of biological rates (Wg"^-1*")"),
        color = "Climate Classification") + theme_bw() + 
   theme(plot.title = element_text(hjust = 0.5, size=title_size),
         axis.title.x = element_blank(),
@@ -225,53 +225,53 @@ plot3 = GAMMplot +
                                       gp=gpar(fontsize=15)))) +
   annotate(geom="text", x=10, 
            y=max(df_no_outliers %>% filter(climate_classification == "Tropical") %>% 
-                   .$daily_ninetieth_perc, na.rm = TRUE) + 
+                   .$daily_median, na.rm = TRUE) + 
              max(df_no_outliers %>% filter(climate_classification == "Tropical") %>% 
-                   .$daily_ninetieth_perc, na.rm = TRUE)/10, 
+                   .$daily_median, na.rm = TRUE)/10, 
            label="*",color="black",size=asterisk_size)+
   annotate(geom="text", x=27.5, 
            y=max(df_no_outliers %>% filter(climate_classification == "Subtropical") %>% 
-                   .$daily_ninetieth_perc, na.rm = TRUE) + 
+                   .$daily_median, na.rm = TRUE) + 
              max(df_no_outliers %>% filter(climate_classification == "Tropical") %>% 
-                   .$daily_ninetieth_perc, na.rm = TRUE)/10, 
+                   .$daily_median, na.rm = TRUE)/10, 
            label="*",color="black",size=asterisk_size) +
-  scale_y_continuous(labels = scinot)
+  scale_y_continuous(labels = scientific_10_1dp)
 
-plot3 = plot3 + coord_cartesian(ylim = c(0,0.00000025))
+plot3 = plot3 + coord_cartesian(ylim = c(0,0.00000011))
 plot3 
 
 #sample size
-length(df_no_outliers[which(!is.na(df_no_outliers$daily_ninetieth_perc)),]$daily_ninetieth_perc)
+length(df_no_outliers[which(!is.na(df_no_outliers$daily_median)),]$daily_median) 
 
 # legend
-plot4 = GAMMplot + geom_point(data=df_no_outliers[which(!is.na(df_no_outliers$daily_ninetieth_perc)),], 
-                              aes(x=lat_in_degrees, y=daily_ninetieth_perc, color=climate_classification)) +
+plot4 = GAMMplot + geom_point(data=df_no_outliers[which(!is.na(df_no_outliers$daily_median)),], 
+                              aes(x=lat_in_degrees, y=daily_median, color=climate_classification)) +
   labs(color = "Climate Classification") + 
   scale_color_manual(values=c("#F65058FF", "#D5A458", "#79CEDC")) 
 
 legend= get_legend(plot4)
 plot4 = as_ggplot(legend)
 
-# weekly_ninetieth_perc
+# weekly_median
 df_no_outliers <- br_diff_short_term %>% 
   group_by(climate_classification) %>%
-  mutate(weekly_ninetieth_perc = remove_outliers(weekly_ninetieth_perc))
+  mutate(weekly_median = remove_outliers(weekly_median))
 
 df_no_outliers$lat_in_degrees = abs(df_no_outliers$lat_in_degrees)
 df_no_outliers$climate_classification <- factor(df_no_outliers$climate_classification , 
                                                 levels=c("Tropical", "Subtropical", "Temperate"))
-gamm_daily_ninetieth_perc <- gamm4(weekly_ninetieth_perc ~ s(lat_in_degrees) + s(depth_in_m),
+gamm_daily_median <- gamm4(weekly_median ~ s(lat_in_degrees) + s(depth_in_m),
                            random = ~ (1|spatial_blocks/plot_id), 
-                           data = df_no_outliers[which(!is.na(df_no_outliers$weekly_ninetieth_perc)),])
+                           data = df_no_outliers[which(!is.na(df_no_outliers$weekly_median)),])
 
-GAMMplot <- plotGAMM(gammFit = gamm_daily_ninetieth_perc, smooth.cov = "lat_in_degrees", groupCovs = NULL, plotCI = T)
+GAMMplot <- plotGAMM(gammFit = gamm_daily_median, smooth.cov = "lat_in_degrees", groupCovs = NULL, plotCI = T)
 
 plot5 = GAMMplot + 
   geom_boxplot(data = br_diff_short_term, outlier.shape=NA, 
-               aes(x=pseudo_climate, y=weekly_ninetieth_perc, color=climate_classification)) +
-  geom_point(data=df_no_outliers[which(!is.na(df_no_outliers$weekly_ninetieth_perc)),], 
-                              aes(x=lat_in_degrees, y=weekly_ninetieth_perc, color=climate_classification), alpha=alpha_value) +
-  labs(x = expression("Absolute latitude (" ^o* ")"), y = expression("90"^th*" percentile of biological rates (Wg"^-1*")"),
+               aes(x=pseudo_climate, y=weekly_median, color=climate_classification)) +
+  geom_point(data=df_no_outliers[which(!is.na(df_no_outliers$weekly_median)),], 
+                              aes(x=lat_in_degrees, y=weekly_median, color=climate_classification), alpha=alpha_value) +
+  labs(x = expression("Absolute latitude (" ^o* ")"), y = expression("Median of biological rates (Wg"^-1*")"),
        color = "Climate Classification") + theme_bw() + 
   theme(plot.title = element_text(hjust = 0.5, size=title_size),
         axis.text.x=element_text(size=axis_text_size),
@@ -291,44 +291,44 @@ plot5 = GAMMplot +
                                       gp=gpar(fontsize=15)))) +
   annotate(geom="text", x=10, 
            y=max(df_no_outliers %>% filter(climate_classification == "Tropical") %>% 
-                   .$weekly_ninetieth_perc, na.rm = TRUE) + 
+                   .$weekly_median, na.rm = TRUE) + 
              max(df_no_outliers %>% filter(climate_classification == "Tropical") %>% 
-                     .$weekly_ninetieth_perc, na.rm = TRUE)/10, 
+                     .$weekly_median, na.rm = TRUE)/10, 
            label="*",color="black",size=asterisk_size)+
   annotate(geom="text", x=27.5, 
            y=max(df_no_outliers %>% filter(climate_classification == "Subtropical") %>% 
-                   .$weekly_ninetieth_perc, na.rm = TRUE) + 
+                   .$weekly_median, na.rm = TRUE) + 
              max(df_no_outliers %>% filter(climate_classification == "Tropical") %>% 
-                     .$weekly_ninetieth_perc, na.rm = TRUE)/10, 
+                     .$weekly_median, na.rm = TRUE)/10, 
            label="*",color="black",size=asterisk_size) +
-  scale_y_continuous(labels = scientific_10_1dp)
+  scale_y_continuous(labels = scinot)
 
-plot5 = plot5 + coord_cartesian(ylim = c(0,0.0000004))
+plot5 = plot5 + coord_cartesian(ylim = c(0,0.00000025))
 plot5 
 
 #sample size
-length(df_no_outliers[which(!is.na(df_no_outliers$weekly_ninetieth_perc)),]$weekly_ninetieth_perc)
+length(df_no_outliers[which(!is.na(df_no_outliers$weekly_median)),]$weekly_median) 
 
-# biweekly_ninetieth_perc
+# biweekly_median
 df_no_outliers <- br_diff_short_term %>% 
   group_by(climate_classification) %>%
-  mutate(biweekly_ninetieth_perc = remove_outliers(biweekly_ninetieth_perc))
+  mutate(biweekly_median = remove_outliers(biweekly_median))
 
 df_no_outliers$lat_in_degrees = abs(df_no_outliers$lat_in_degrees)
 df_no_outliers$climate_classification <- factor(df_no_outliers$climate_classification , 
                                                 levels=c("Tropical", "Subtropical", "Temperate"))
-gamm_daily_ninetieth_perc <- gamm4(biweekly_ninetieth_perc ~ s(lat_in_degrees) + s(depth_in_m),
+gamm_daily_median <- gamm4(biweekly_median ~ s(lat_in_degrees) + s(depth_in_m),
                            random = ~ (1|spatial_blocks/plot_id), 
-                           data = df_no_outliers[which(!is.na(df_no_outliers$biweekly_ninetieth_perc)),])
+                           data = df_no_outliers[which(!is.na(df_no_outliers$biweekly_median)),])
 
-GAMMplot <- plotGAMM(gammFit = gamm_daily_ninetieth_perc, smooth.cov = "lat_in_degrees", groupCovs = NULL, plotCI = T)
+GAMMplot <- plotGAMM(gammFit = gamm_daily_median, smooth.cov = "lat_in_degrees", groupCovs = NULL, plotCI = T)
 
 plot6 = GAMMplot + 
   geom_boxplot(data = br_diff_short_term, outlier.shape=NA, 
-               aes(x=pseudo_climate, y=biweekly_ninetieth_perc, color=climate_classification)) +
-  geom_point(data=df_no_outliers[which(!is.na(df_no_outliers$biweekly_ninetieth_perc)),], 
-                              aes(x=lat_in_degrees, y=biweekly_ninetieth_perc, color=climate_classification), alpha=alpha_value) +
-  labs(x = expression("Absolute latitude (" ^o* ")"), y = expression("90"^th*" percentile of biological rates (Wg"^-1*")"),
+               aes(x=pseudo_climate, y=biweekly_median, color=climate_classification)) +
+  geom_point(data=df_no_outliers[which(!is.na(df_no_outliers$biweekly_median)),], 
+                              aes(x=lat_in_degrees, y=biweekly_median, color=climate_classification), alpha=alpha_value) +
+  labs(x = expression("Absolute latitude (" ^o* ")"), y = expression("Median of biological rates (Wg"^-1*")"),
        color = "Climate Classification") + theme_bw() + 
   theme(plot.title = element_text(hjust = 0.5, size=title_size),
         axis.text.x=element_text(size=axis_text_size),
@@ -346,44 +346,44 @@ plot6 = GAMMplot +
                                       gp=gpar(fontsize=15)))) +
   annotate(geom="text", x=10, 
            y=max(df_no_outliers %>% filter(climate_classification == "Tropical") %>% 
-                   .$biweekly_ninetieth_perc, na.rm = TRUE) + 
+                   .$biweekly_median, na.rm = TRUE) + 
              max(df_no_outliers %>% filter(climate_classification == "Tropical") %>% 
-                     .$biweekly_ninetieth_perc, na.rm = TRUE)/10, 
+                     .$biweekly_median, na.rm = TRUE)/10, 
            label="*",color="black",size=asterisk_size)+
   annotate(geom="text", x=27.5, 
            y=max(df_no_outliers %>% filter(climate_classification == "Subtropical") %>% 
-                   .$biweekly_ninetieth_perc, na.rm = TRUE) + 
+                   .$biweekly_median, na.rm = TRUE) + 
              max(df_no_outliers %>% filter(climate_classification == "Tropical") %>% 
-                     .$biweekly_ninetieth_perc, na.rm = TRUE)/10, 
+                     .$biweekly_median, na.rm = TRUE)/10, 
            label="*",color="black",size=asterisk_size) +
   scale_y_continuous(labels = scientific_10_1dp)
 
-plot6 = plot6 + coord_cartesian(ylim = c(0,0.00000045))
+plot6 = plot6 + coord_cartesian(ylim = c(0,0.0000003))
 plot6 
 
 #sample size
-length(df_no_outliers[which(!is.na(df_no_outliers$biweekly_ninetieth_perc)),]$biweekly_ninetieth_perc)
+length(df_no_outliers[which(!is.na(df_no_outliers$biweekly_median)),]$biweekly_median) 
 
-# monthly_ninetieth_perc
+# monthly_median
 df_no_outliers <- br_diff_short_term %>% 
   group_by(climate_classification) %>%
-  mutate(monthly_ninetieth_perc = remove_outliers(monthly_ninetieth_perc))
+  mutate(monthly_median = remove_outliers(monthly_median))
 
 df_no_outliers$lat_in_degrees = abs(df_no_outliers$lat_in_degrees)
 df_no_outliers$climate_classification <- factor(df_no_outliers$climate_classification , 
                                                 levels=c("Tropical", "Subtropical", "Temperate"))
-gamm_daily_ninetieth_perc <- gamm4(monthly_ninetieth_perc ~ s(lat_in_degrees) + s(depth_in_m),
+gamm_daily_median <- gamm4(monthly_median ~ s(lat_in_degrees) + s(depth_in_m),
                            random = ~ (1|spatial_blocks/plot_id), 
-                           data = df_no_outliers[which(!is.na(df_no_outliers$monthly_ninetieth_perc)),])
+                           data = df_no_outliers[which(!is.na(df_no_outliers$monthly_median)),])
 
-GAMMplot <- plotGAMM(gammFit = gamm_daily_ninetieth_perc, smooth.cov = "lat_in_degrees", groupCovs = NULL, plotCI = T)
+GAMMplot <- plotGAMM(gammFit = gamm_daily_median, smooth.cov = "lat_in_degrees", groupCovs = NULL, plotCI = T)
 
 plot7 = GAMMplot + 
   geom_boxplot(data = br_diff_short_term, outlier.shape=NA, 
-               aes(x=pseudo_climate, y=monthly_ninetieth_perc, color=climate_classification)) +
-  geom_point(data=df_no_outliers[which(!is.na(df_no_outliers$monthly_ninetieth_perc)),], 
-                              aes(x=lat_in_degrees, y=monthly_ninetieth_perc, color=climate_classification), alpha=alpha_value) +
-  labs(x = expression("Absolute latitude (" ^o* ")"), y = expression("90"^th*" percentile of biological rates (Wg"^-1*")"),
+               aes(x=pseudo_climate, y=monthly_median, color=climate_classification)) +
+  geom_point(data=df_no_outliers[which(!is.na(df_no_outliers$monthly_median)),], 
+                              aes(x=lat_in_degrees, y=monthly_median, color=climate_classification), alpha=alpha_value) +
+  labs(x = expression("Absolute latitude (" ^o* ")"), y = expression("Median of "),
        color = "Climate Classification") + theme_bw() + 
   theme(plot.title = element_text(hjust = 0.5, size=title_size),
         axis.text.x=element_text(size=axis_text_size),
@@ -402,45 +402,45 @@ plot7 = GAMMplot +
                                       gp=gpar(fontsize=15)))) +
   annotate(geom="text", x=10, 
            y=max(df_no_outliers %>% filter(climate_classification == "Tropical") %>% 
-                   .$monthly_ninetieth_perc, na.rm = TRUE) + 
+                   .$monthly_median, na.rm = TRUE) + 
              max(df_no_outliers %>% filter(climate_classification == "Tropical") %>% 
-                   .$monthly_ninetieth_perc, na.rm = TRUE)/10, 
+                   .$monthly_median, na.rm = TRUE)/10, 
            label="*",color="black",size=asterisk_size)+
   annotate(geom="text", x=27.5, 
            y=max(df_no_outliers %>% filter(climate_classification == "Subtropical") %>% 
-                   .$monthly_ninetieth_perc, na.rm = TRUE) + 
+                   .$monthly_median, na.rm = TRUE) + 
              max(df_no_outliers %>% filter(climate_classification == "Tropical") %>% 
-                   .$monthly_ninetieth_perc, na.rm = TRUE)/10, 
+                   .$monthly_median, na.rm = TRUE)/10, 
            label="*",color="black",size=asterisk_size) +
   scale_y_continuous(labels = scientific_10_1dp)
 
 
-plot7 = plot7 + coord_cartesian(ylim = c(0,0.00000055))
+plot7 = plot7 + coord_cartesian(ylim = c(0,0.0000004))
 plot7 
 
 #sample size
-length(df_no_outliers[which(!is.na(df_no_outliers$monthly_ninetieth_perc)),]$monthly_ninetieth_perc)
+length(df_no_outliers[which(!is.na(df_no_outliers$monthly_median)),]$monthly_median) 
 
-# annual_ninetieth_perc
+# annual_median
 df_no_outliers <- br_diff_annual %>% 
   group_by(climate_classification) %>%
-  mutate(annual_ninetieth_perc = remove_outliers(annual_ninetieth_perc))
+  mutate(annual_median = remove_outliers(annual_median))
 
 df_no_outliers$lat_in_degrees = abs(df_no_outliers$lat_in_degrees)
 df_no_outliers$climate_classification <- factor(df_no_outliers$climate_classification , 
                                                 levels=c("Tropical", "Subtropical", "Temperate"))
-gamm_daily_ninetieth_perc <- gamm4(annual_ninetieth_perc ~ s(lat_in_degrees) + s(depth_in_m),
+gamm_daily_median <- gamm4(annual_median ~ s(lat_in_degrees) + s(depth_in_m),
                            random = ~ (1|spatial_blocks), 
-                           data = df_no_outliers[which(!is.na(df_no_outliers$annual_ninetieth_perc)),])
+                           data = df_no_outliers[which(!is.na(df_no_outliers$annual_median)),])
 
-GAMMplot <- plotGAMM(gammFit = gamm_daily_ninetieth_perc, smooth.cov = "lat_in_degrees", groupCovs = NULL, plotCI = T)
+GAMMplot <- plotGAMM(gammFit = gamm_daily_median, smooth.cov = "lat_in_degrees", groupCovs = NULL, plotCI = T)
 
 plot8 = GAMMplot + 
   geom_boxplot(data = br_diff_annual, outlier.shape=NA, 
-               aes(x=pseudo_climate, y=annual_ninetieth_perc, color=climate_classification)) +
-  geom_point(data=df_no_outliers[which(!is.na(df_no_outliers$annual_ninetieth_perc)),], 
-                              aes(x=lat_in_degrees, y=annual_ninetieth_perc, color=climate_classification), alpha=alpha_value) +
-  labs(x = expression("Absolute latitude (" ^o* ")"), y = expression("90"^th*" percentile of biological rates (Wg"^-1*")"),
+               aes(x=pseudo_climate, y=annual_median, color=climate_classification)) +
+  geom_point(data=df_no_outliers[which(!is.na(df_no_outliers$annual_median)),], 
+                              aes(x=lat_in_degrees, y=annual_median, color=climate_classification), alpha=alpha_value) +
+  labs(x = expression("Absolute latitude (" ^o* ")"), y = expression("Median of biological rates (Wg"^-1*")"),
        color = "Climate Classification") + theme_bw() + 
   theme(plot.title = element_text(hjust = 0.5, size=title_size),
         axis.text.x=element_text(size=axis_text_size),
@@ -459,25 +459,25 @@ plot8 = GAMMplot +
                                       gp=gpar(fontsize=15)))) +
   annotate(geom="text", x=10, 
            y=max(df_no_outliers %>% filter(climate_classification == "Tropical") %>% 
-                   .$annual_ninetieth_perc, na.rm = TRUE) + 
+                   .$annual_median, na.rm = TRUE) + 
              max(df_no_outliers %>% filter(climate_classification == "Tropical") %>% 
-                     .$annual_ninetieth_perc, na.rm = TRUE)/10, 
+                     .$annual_median, na.rm = TRUE)/10, 
            label="*",color="black",size=asterisk_size)+
   annotate(geom="text", x=27.5, 
            y=max(df_no_outliers %>% filter(climate_classification == "Subtropical") %>% 
-                   .$annual_ninetieth_perc, na.rm = TRUE) + 
+                   .$annual_median, na.rm = TRUE) + 
              max(df_no_outliers %>% filter(climate_classification == "Tropical") %>% 
-                     .$annual_ninetieth_perc, na.rm = TRUE)/10, 
+                     .$annual_median, na.rm = TRUE)/10, 
            label="*",color="black",size=asterisk_size) +
-  scale_y_continuous(labels = scientific_10_1dp)
+  scale_y_continuous(labels = scinot)
 
 
-plot8 = plot8 + coord_cartesian(ylim = c(0,0.0000011))
+plot8 = plot8 + coord_cartesian(ylim = c(0,0.000001))
 plot8 
 
 #sample size
-length(df_no_outliers[which(!is.na(df_no_outliers$annual_ninetieth_perc)),]$annual_ninetieth_perc)
+length(df_no_outliers[which(!is.na(df_no_outliers$annual_median)),]$annual_median) 
 
-ggsave(filename="Fig6.png",height=5, width=11, units="in", 
+ggsave(filename="Fig4.png",height=5, width=11, units="in", 
        plot=grid.arrange(plot1, plot2, plot3, plot5, plot6, plot7, plot8, plot4, ncol = 4), 
        device="png")

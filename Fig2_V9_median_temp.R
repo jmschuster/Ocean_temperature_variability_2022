@@ -454,6 +454,6 @@ plot8
 #sample size
 length(df_no_outliers[which(!is.na(df_no_outliers$annual_median)),]$annual_median) 
 
-ggsave(filename="Fig3.png",height=5, width=11, units="in", 
+ggsave(filename="Fig2.png",height=5, width=11, units="in", 
        plot=grid.arrange(plot1, plot2, plot3, plot5, plot6, plot7, plot8, plot4, ncol = 4), 
        device="png")
