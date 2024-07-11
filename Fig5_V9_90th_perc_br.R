@@ -108,7 +108,7 @@ plot1 = GAMMplot + geom_boxplot(data = br_diff_short_term, outlier.shape=NA,
         legend.position = "none", 
         plot.margin=unit(c(0.3,0,0.3,0.2), "cm")) +
   ggtitle("Quarter-diurnal (6 hrs)") +
-  scale_color_manual(values=c("#D5A458", "#79CEDC", "#F65058FF")) + 
+  scale_color_manual(values=c("#F65058FF", "#D5A458", "#79CEDC")) + 
   annotation_custom(grobTree(textGrob(expression(bold("a")), x=0.05,  y=0.92,
                                       gp=gpar(fontsize=15)))) +
   annotate(geom="text", x=10, 
@@ -164,7 +164,7 @@ plot2 = GAMMplot +
         legend.position = "none", 
         plot.margin=unit(c(0.3,0.2,0.3,0.5), "cm")) +
   ggtitle("Semi-diurnal (12 hrs)") +
-  scale_color_manual(values=c("#D5A458", "#79CEDC", "#F65058FF")) + 
+  scale_color_manual(values=c("#F65058FF", "#D5A458", "#79CEDC")) + 
   annotation_custom(grobTree(textGrob(expression(bold("b")), x=0.05,  y=0.92,
                                       gp=gpar(fontsize=15)))) +
   annotate(geom="text", x=10, 
@@ -220,7 +220,7 @@ plot3 = GAMMplot +
         legend.position = "none", 
         plot.margin=unit(c(0.3,0.4,0.3,0.3), "cm")) +
   ggtitle("Diurnal (24 hrs)") +
-  scale_color_manual(values=c("#D5A458", "#79CEDC", "#F65058FF")) + 
+  scale_color_manual(values=c("#F65058FF", "#D5A458", "#79CEDC")) + 
   annotation_custom(grobTree(textGrob(expression(bold("c")), x=0.05,  y=0.92,
                                       gp=gpar(fontsize=15)))) +
   annotate(geom="text", x=10, 
@@ -244,7 +244,7 @@ plot3
 length(df_no_outliers[which(!is.na(df_no_outliers$daily_ninetieth_perc)),]$daily_ninetieth_perc)
 
 # legend
-plot4 = GAMMplot + geom_point(data=df_no_outliers[which(!is.na(df_no_outliers$daily_ninetieth_perc)),], 
+plot4 = ggplot() + geom_point(data=df_no_outliers[which(!is.na(df_no_outliers$daily_ninetieth_perc)),], 
                               aes(x=lat_in_degrees, y=daily_ninetieth_perc, color=climate_classification)) +
   labs(color = "Climate Classification") + 
   scale_color_manual(values=c("#F65058FF", "#D5A458", "#79CEDC")) 
@@ -286,7 +286,7 @@ plot5 = GAMMplot +
         legend.position = "none", 
         plot.margin=unit(c(0.3,0.6,0.3,0.1), "cm")) +
   ggtitle("Weekly") +
-  scale_color_manual(values=c("#D5A458", "#79CEDC", "#F65058FF")) + 
+  scale_color_manual(values=c("#F65058FF", "#D5A458", "#79CEDC")) + 
   annotation_custom(grobTree(textGrob(expression(bold("d")), x=0.05,  y=0.92,
                                       gp=gpar(fontsize=15)))) +
   annotate(geom="text", x=10, 
@@ -341,7 +341,7 @@ plot6 = GAMMplot +
         legend.position = "none", 
         plot.margin=unit(c(0,0,0.1,0.2), "cm")) +
   ggtitle("Bi-weekly") +
-  scale_color_manual(values=c("#D5A458", "#79CEDC", "#F65058FF")) + 
+  scale_color_manual(values=c("#F65058FF", "#D5A458", "#79CEDC")) + 
   annotation_custom(grobTree(textGrob(expression(bold("e")), x=0.05,  y=0.92,
                                       gp=gpar(fontsize=15)))) +
   annotate(geom="text", x=10, 
@@ -397,7 +397,7 @@ plot7 = GAMMplot +
         legend.position = "none", 
         plot.margin=unit(c(0,0.2,0.1,0.5), "cm")) +
   ggtitle("Monthly") +
-  scale_color_manual(values=c("#D5A458", "#79CEDC", "#F65058FF")) + 
+  scale_color_manual(values=c("#F65058FF", "#D5A458", "#79CEDC")) + 
   annotation_custom(grobTree(textGrob(expression(bold("f")), x=0.05,  y=0.92,
                                       gp=gpar(fontsize=15)))) +
   annotate(geom="text", x=10, 
@@ -454,7 +454,7 @@ plot8 = GAMMplot +
         legend.position = "none", 
         plot.margin=unit(c(0,0.4,0.1,0.3), "cm")) +
   ggtitle("Annual") +
-  scale_color_manual(values=c("#D5A458", "#79CEDC", "#F65058FF")) + 
+  scale_color_manual(values=c("#F65058FF", "#D5A458", "#79CEDC")) + 
   annotation_custom(grobTree(textGrob(expression(bold("g")), x=0.05,  y=0.92,
                                       gp=gpar(fontsize=15)))) +
   annotate(geom="text", x=10, 
@@ -478,6 +478,5 @@ plot8
 #sample size
 length(df_no_outliers[which(!is.na(df_no_outliers$annual_ninetieth_perc)),]$annual_ninetieth_perc)
 
-ggsave(filename="Fig5.png",height=5, width=11, units="in", 
-       plot=grid.arrange(plot1, plot2, plot3, plot5, plot6, plot7, plot8, plot4, ncol = 4), 
-       device="png")
+ggsave(filename="Fig5.pdf",height=5, width=11, units="in", 
+       plot=grid.arrange(plot1, plot2, plot3, plot5, plot6, plot7, plot8, plot4, ncol = 4))

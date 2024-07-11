@@ -6,8 +6,8 @@
 
 rm(list = ls())
 
-setwd("C:/Users/dlcyli/OneDrive/Ocean_temperature_variability_2022")
-#setwd("~/Documents/GitHub/Ocean_temperature_variability_2022/")
+# setwd("C:/Users/dlcyli/OneDrive/Ocean_temperature_variability_2022")
+setwd("G:/Other computers/My Laptop/Documents/HOTS Database")
 library(ggplot2)
 library(ggmap)
 library(maptools)
@@ -402,6 +402,6 @@ grid.arrange(plot1, plot2,plot3,
 
 # Save final fig: 
 #setwd("~/Desktop/PhD/Publications/Li Chong et al. ocean temp variability")
-ggsave(filename="Fig1_Pacific_centered.png",height=9, width=12.5, plot=grid.arrange(plot1, plot2,plot3,
+ggsave(filename="Fig1_Pacific_centered.pdf",height=9, width=12.5, plot=grid.arrange(plot1, plot2,plot3,
                                                                             arrangeGrob(blankPlot,MAP,LatRange,widths=c(0.08,0.8,0.12)),
-                                                                            plot4, plot5, plot6, ncol = 3, nrow=3, layout_matrix = layout,heights=c(1,2,1)), device="png")
+                                                                            plot4, plot5, plot6, ncol = 3, nrow=3, layout_matrix = layout,heights=c(1,2,1)))
